@@ -14,7 +14,7 @@ extends Node2D
 var current_cooldown: float = 0.0
 var is_ready: bool = true
 
-signal spell_cast(spell: Spell)
+signal spell_cast(spell: Node2D)
 signal spell_ready
 
 func _ready():

@@ -7,7 +7,7 @@ extends StaticBody2D
 @export var is_locked: bool = true
 @export var leads_to_scene: String = ""  # Scene to transition to
 
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var visual: ColorRect = $Visual
 @onready var collision: CollisionShape2D = $CollisionShape2D
 @onready var interaction_area: Area2D = $InteractionArea
 
@@ -33,9 +33,10 @@ func interact(player: Node):
 		return
 	
 	if is_locked:
-		# Check if player has required spell
-		if player.has_method("has_spell") and player.has_spell(required_spell):
+		# Check if player has required spell via SpellManager
+		if SpellManager.has_spell(required_spell):
 			unlock_door()
+			show_message("Door unlocked!")
 		else:
 			show_message("This door requires: " + required_spell)
 	else:
@@ -61,14 +62,17 @@ func open_door():
 
 func update_door_state():
 	"""Update visual state of door"""
+	if not visual:
+		return
+		
 	if is_open:
-		sprite.modulate = Color(0.5, 0.5, 0.5, 1.0)  # Gray when open
+		visual.color = Color(0.5, 0.5, 0.5, 1.0)  # Gray when open
 		if collision:
 			collision.set_deferred("disabled", true)
 	elif is_locked:
-		sprite.modulate = Color(1.0, 0.3, 0.3, 1.0)  # Red when locked
+		visual.color = Color(1.0, 0.3, 0.3, 1.0)  # Red when locked
 	else:
-		sprite.modulate = Color.WHITE  # White when unlocked but closed
+		visual.color = Color(0.6, 0.6, 0.8, 1.0)  # Light blue when unlocked but closed
 
 func show_message(text: String):
 	"""Show a message to the player"""

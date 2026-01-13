@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://spell_projectile_001"]
+
+[ext_resource type="Script" path="res://scripts/spells/spell_projectile.gd" id="1_projectile"]
+
+[sub_resource type="RectangleShape2D" id="projectile_shape"]
+size = Vector2(8, 8)
+
+[node name="SpellProjectile" type="Area2D"]
+script = ExtResource("1_projectile")
+
+[node name="Visual" type="ColorRect" parent="."]
+offset_left = -6.0
+offset_top = -6.0
+offset_right = 6.0
+offset_bottom = 6.0
+color = Color(1, 0.3, 0.1, 1)
+
+[node name="Glow" type="ColorRect" parent="Visual"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = -4.0
+offset_top = -4.0
+offset_right = 4.0
+offset_bottom = 4.0
+color = Color(1, 0.8, 0.3, 0.7)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("projectile_shape")
+

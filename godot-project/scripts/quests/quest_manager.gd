@@ -2,12 +2,12 @@ extends Node
 
 ## Quest Manager - Handles quest system and AI-generated content
 
-var active_quests: Array[Quest] = []
-var completed_quests: Array[Quest] = []
-var available_quests: Array[Quest] = []
+var active_quests: Array = []  # Array of Quest resources
+var completed_quests: Array = []  # Array of Quest resources
+var available_quests: Array = []  # Array of Quest resources
 
-signal quest_started(quest: Quest)
-signal quest_completed(quest: Quest)
+signal quest_started(quest: Resource)
+signal quest_completed(quest: Resource)
 
 func _ready():
 	initialize_quests()
@@ -21,9 +21,10 @@ func initialize_quests():
 	main_quest.quest_name = "The First Spell"
 	main_quest.description = "Collect your first spell to begin your journey"
 	main_quest.quest_type = "main"
-	main_quest.objectives = [
+	var objectives_array: Array[Dictionary] = [
 		{"description": "Collect a spell", "completed": false, "type": "collect_spell"}
 	]
+	main_quest.objectives = objectives_array
 	main_quest.rewards = {"mana_crystals": 50, "experience": 100}
 	
 	available_quests.append(main_quest)
@@ -74,7 +75,8 @@ func generate_quest_ai(quest_type: String = "side") -> Quest:
 	quest.quest_name = generate_quest_name()
 	quest.description = generate_quest_description()
 	quest.quest_type = quest_type
-	quest.objectives = generate_objectives()
+	var objectives_array: Array[Dictionary] = generate_objectives()
+	quest.objectives = objectives_array
 	quest.rewards = generate_rewards()
 	
 	return quest

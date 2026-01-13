@@ -12,7 +12,7 @@ class_name Quest
 @export var is_completed: bool = false
 @export var is_active: bool = false
 
-signal quest_completed(quest: Quest)
+signal quest_completed(quest: Resource)
 signal objective_completed(objective_index: int)
 
 func _init():

@@ -11,8 +11,12 @@ size = Vector2(32, 32)
 position = Vector2(640, 360)
 script = ExtResource("1_1")
 
-[node name="Sprite2D" type="Sprite2D" parent="Player"]
-modulate = Color(0.2, 0.6, 1, 1)
+[node name="Visual" type="ColorRect" parent="Player"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(0.2, 0.6, 1, 1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
 shape = SubResource("RectangleShape2D_1")

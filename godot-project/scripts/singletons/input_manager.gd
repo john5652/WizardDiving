@@ -42,3 +42,11 @@ func get_spell_slot_pressed() -> int:
 	if Input.is_action_just_pressed("cast_spell_4"):
 		return 4
 	return 0
+
+func is_switch_spell_pressed() -> bool:
+	"""Check if switch spell button is pressed"""
+	return Input.is_action_just_pressed("switch_spell")
+
+func is_cast_spell_pressed() -> bool:
+	"""Check if cast current spell button is pressed"""
+	return Input.is_action_just_pressed("cast_current_spell")

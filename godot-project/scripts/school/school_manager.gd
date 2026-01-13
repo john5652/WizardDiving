@@ -10,29 +10,29 @@ var school_upgrades: Dictionary = {}
 
 signal resources_changed(mana_crystals: int)
 signal school_level_up(new_level: int)
-signal class_unlocked(class_name: String)
+signal class_unlocked(unlocked_class: String)
 
 func _ready():
 	print("School Manager initialized")
 
-func teach_class(class_name: String) -> bool:
+func teach_class(className: String) -> bool:
 	"""Teach a class and earn resources"""
-	if not is_class_unlocked(class_name):
+	if not is_class_unlocked(className):
 		return false
 	
 	# Calculate earnings based on class and satisfaction
-	var base_earnings = get_class_earnings(class_name)
+	var base_earnings = get_class_earnings(className)
 	var earnings = int(base_earnings * (1.0 + student_satisfaction))
 	
 	mana_crystals += earnings
 	student_satisfaction = min(1.0, student_satisfaction + 0.05)  # Increase satisfaction
 	
 	resources_changed.emit(mana_crystals)
-	print("Taught class: ", class_name, " - Earned: ", earnings)
+	print("Taught class: ", className, " - Earned: ", earnings)
 	
 	return true
 
-func get_class_earnings(class_name: String) -> int:
+func get_class_earnings(className: String) -> int:
 	"""Get base earnings for a class"""
 	var earnings_map = {
 		"basic_magic": 20,
@@ -41,25 +41,25 @@ func get_class_earnings(class_name: String) -> int:
 		"healing_magic": 60,
 		"elemental_magic": 100
 	}
-	return earnings_map.get(class_name, 10)
+	return earnings_map.get(className, 10)
 
-func is_class_unlocked(class_name: String) -> bool:
+func is_class_unlocked(className: String) -> bool:
 	"""Check if a class is unlocked"""
-	return class_name in unlocked_classes
+	return className in unlocked_classes
 
-func unlock_class(class_name: String, cost: int) -> bool:
+func unlock_class(className: String, cost: int) -> bool:
 	"""Unlock a new class"""
-	if is_class_unlocked(class_name):
+	if is_class_unlocked(className):
 		return false
 	
 	if mana_crystals < cost:
 		return false
 	
 	mana_crystals -= cost
-	unlocked_classes.append(class_name)
-	class_unlocked.emit(class_name)
+	unlocked_classes.append(className)
+	class_unlocked.emit(className)
 	resources_changed.emit(mana_crystals)
-	print("Unlocked class: ", class_name)
+	print("Unlocked class: ", className)
 	return true
 
 func upgrade_school(upgrade_name: String, cost: int) -> bool:

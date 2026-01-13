@@ -6,8 +6,8 @@ extends Node2D
 @export var room_name: String = "Unknown Room"
 @export var connected_rooms: Array[String] = []
 
-var doors: Array[Door] = []
-var enemies: Array[Enemy] = []
+var doors: Array = []  # Array of Door nodes
+var enemies: Array = []  # Array of Enemy nodes
 
 func _ready():
 	# Find all doors and enemies in this room

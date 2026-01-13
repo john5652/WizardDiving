@@ -1,0 +1,478 @@
+[gd_scene load_steps=9 format=3 uid="uid://test_level_001"]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_player"]
+[ext_resource type="Script" path="res://scripts/spells/spell_pickup.gd" id="2_spell_pickup"]
+[ext_resource type="Script" path="res://scripts/exploration/door.gd" id="3_door"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy.gd" id="4_enemy"]
+[ext_resource type="Script" path="res://scripts/exploration/room.gd" id="5_room"]
+[ext_resource type="Script" path="res://scripts/ui/spell_inventory_ui.gd" id="6_spell_inventory"]
+[ext_resource type="Script" path="res://scripts/enemies/enemy_health_bar.gd" id="7_enemy_health"]
+
+[sub_resource type="GDScript" id="enemy_health_script"]
+script/source = "extends ProgressBar
+
+func _on_enemy_health_changed(new_health: int, max_health: int):
+	max_value = max_health
+	value = new_health
+	var health_percent = float(new_health) / float(max_health)
+	if health_percent > 0.6:
+		modulate = Color.GREEN
+	elif health_percent > 0.3:
+		modulate = Color.YELLOW
+	else:
+		modulate = Color.RED
+"
+
+[sub_resource type="RectangleShape2D" id="wall_shape"]
+size = Vector2(50, 50)
+
+[sub_resource type="RectangleShape2D" id="player_shape"]
+size = Vector2(32, 32)
+
+[sub_resource type="RectangleShape2D" id="spell_pickup_shape"]
+size = Vector2(20, 20)
+
+[sub_resource type="RectangleShape2D" id="door_shape"]
+size = Vector2(40, 80)
+
+[sub_resource type="RectangleShape2D" id="enemy_shape"]
+size = Vector2(24, 24)
+
+[node name="TestLevel" type="Node2D"]
+
+[node name="Room" type="Node2D" parent="."]
+script = ExtResource("5_room")
+room_id = "test_room_01"
+room_name = "Test Chamber"
+
+[node name="Background" type="ColorRect" parent="Room"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.1, 0.1, 0.15, 1)
+
+[node name="BackgroundPattern" type="ColorRect" parent="Room/Background"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -640.0
+offset_top = -360.0
+offset_right = 640.0
+offset_bottom = 360.0
+color = Color(0.15, 0.15, 0.2, 1)
+
+[node name="Walls" type="Node2D" parent="Room"]
+
+[node name="WallTop" type="StaticBody2D" parent="Room/Walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Walls/WallTop"]
+shape = SubResource("wall_shape")
+position = Vector2(640, 50)
+
+[node name="Visual" type="ColorRect" parent="Room/Walls/WallTop"]
+offset_left = 615.0
+offset_top = 25.0
+offset_right = 665.0
+offset_bottom = 75.0
+color = Color(0.3, 0.25, 0.2, 1)
+
+[node name="WallBottom" type="StaticBody2D" parent="Room/Walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Walls/WallBottom"]
+shape = SubResource("wall_shape")
+position = Vector2(640, 670)
+
+[node name="Visual" type="ColorRect" parent="Room/Walls/WallBottom"]
+offset_left = 615.0
+offset_top = 645.0
+offset_right = 665.0
+offset_bottom = 695.0
+color = Color(0.3, 0.25, 0.2, 1)
+
+[node name="WallLeft" type="StaticBody2D" parent="Room/Walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Walls/WallLeft"]
+shape = SubResource("wall_shape")
+position = Vector2(50, 360)
+
+[node name="Visual" type="ColorRect" parent="Room/Walls/WallLeft"]
+offset_left = 25.0
+offset_top = 335.0
+offset_right = 75.0
+offset_bottom = 385.0
+color = Color(0.3, 0.25, 0.2, 1)
+
+[node name="WallRight" type="StaticBody2D" parent="Room/Walls"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Walls/WallRight"]
+shape = SubResource("wall_shape")
+position = Vector2(1230, 360)
+
+[node name="Visual" type="ColorRect" parent="Room/Walls/WallRight"]
+offset_left = 1205.0
+offset_top = 335.0
+offset_right = 1255.0
+offset_bottom = 385.0
+color = Color(0.3, 0.25, 0.2, 1)
+
+[node name="Player" type="CharacterBody2D" parent="Room"]
+position = Vector2(200, 360)
+script = ExtResource("1_player")
+
+[node name="Visual" type="ColorRect" parent="Room/Player"]
+offset_left = -16.0
+offset_top = -16.0
+offset_right = 16.0
+offset_bottom = 16.0
+color = Color(0.2, 0.6, 1, 1)
+
+[node name="PlayerGlow" type="ColorRect" parent="Room/Player/Visual"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = -2.0
+offset_top = -2.0
+offset_right = 2.0
+offset_bottom = 2.0
+color = Color(0.4, 0.8, 1, 0.5)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Player"]
+shape = SubResource("player_shape")
+
+[node name="SpellCastPoint" type="Node2D" parent="Room/Player"]
+position = Vector2(16, 0)
+
+[node name="Camera2D" type="Camera2D" parent="Room/Player"]
+position = Vector2(0, 0)
+enabled = true
+limit_left = 0
+limit_top = 0
+limit_right = 1280
+limit_bottom = 720
+
+[node name="SpellPickups" type="Node2D" parent="Room"]
+
+[node name="FireballPickup" type="Area2D" parent="Room/SpellPickups"]
+position = Vector2(500, 200)
+script = ExtResource("2_spell_pickup")
+spell_id = "fireball"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/SpellPickups/FireballPickup"]
+shape = SubResource("spell_pickup_shape")
+
+[node name="Sprite2D" type="ColorRect" parent="Room/SpellPickups/FireballPickup"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(1, 0.3, 0.1, 1)
+
+[node name="Glow" type="ColorRect" parent="Room/SpellPickups/FireballPickup/Sprite2D"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+color = Color(1, 0.6, 0.2, 0.6)
+
+[node name="Label" type="Label" parent="Room/SpellPickups/FireballPickup"]
+offset_left = -30.0
+offset_top = -35.0
+offset_right = 30.0
+offset_bottom = -15.0
+text = "Fireball"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="IceShardPickup" type="Area2D" parent="Room/SpellPickups"]
+position = Vector2(800, 500)
+script = ExtResource("2_spell_pickup")
+spell_id = "ice_shard"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/SpellPickups/IceShardPickup"]
+shape = SubResource("spell_pickup_shape")
+
+[node name="Sprite2D" type="ColorRect" parent="Room/SpellPickups/IceShardPickup"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(0.2, 0.8, 1, 1)
+
+[node name="Glow" type="ColorRect" parent="Room/SpellPickups/IceShardPickup/Sprite2D"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+color = Color(0.4, 0.9, 1, 0.6)
+
+[node name="Label" type="Label" parent="Room/SpellPickups/IceShardPickup"]
+offset_left = -30.0
+offset_top = -35.0
+offset_right = 30.0
+offset_bottom = -15.0
+text = "Ice Shard"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UnlockDoorSpell" type="Area2D" parent="Room/SpellPickups"]
+position = Vector2(400, 600)
+script = ExtResource("2_spell_pickup")
+spell_id = "unlock_door"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/SpellPickups/UnlockDoorSpell"]
+shape = SubResource("spell_pickup_shape")
+
+[node name="Sprite2D" type="ColorRect" parent="Room/SpellPickups/UnlockDoorSpell"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(0.8, 0.8, 0.2, 1)
+
+[node name="Glow" type="ColorRect" parent="Room/SpellPickups/UnlockDoorSpell/Sprite2D"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+color = Color(1, 1, 0.4, 0.6)
+
+[node name="Label" type="Label" parent="Room/SpellPickups/UnlockDoorSpell"]
+offset_left = -30.0
+offset_top = -35.0
+offset_right = 30.0
+offset_bottom = -15.0
+text = "Unlock Door"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Doors" type="Node2D" parent="Room"]
+
+[node name="LockedDoor" type="StaticBody2D" parent="Room/Doors"]
+position = Vector2(1100, 360)
+script = ExtResource("3_door")
+door_id = "door_01"
+required_spell = "unlock_door"
+is_locked = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Doors/LockedDoor"]
+shape = SubResource("door_shape")
+
+[node name="Visual" type="ColorRect" parent="Room/Doors/LockedDoor"]
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+offset_bottom = 40.0
+color = Color(0.6, 0.2, 0.2, 1)
+
+[node name="LockIcon" type="ColorRect" parent="Room/Doors/LockedDoor"]
+offset_left = -8.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 8.0
+color = Color(0.9, 0.9, 0.1, 1)
+
+[node name="Label" type="Label" parent="Room/Doors/LockedDoor"]
+offset_left = -50.0
+offset_top = -60.0
+offset_right = 50.0
+offset_bottom = -40.0
+text = "LOCKED
+Requires: Unlock Door"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="InteractionArea" type="Area2D" parent="Room/Doors/LockedDoor"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Doors/LockedDoor/InteractionArea"]
+shape = SubResource("door_shape")
+
+[node name="Enemies" type="Node2D" parent="Room"]
+
+[node name="Goblin" type="CharacterBody2D" parent="Room/Enemies"]
+position = Vector2(900, 300)
+script = ExtResource("4_enemy")
+enemy_name = "Goblin"
+max_health = 30
+speed = 80.0
+damage = 5
+experience_reward = 15
+
+[node name="Visual" type="ColorRect" parent="Room/Enemies/Goblin"]
+offset_left = -12.0
+offset_top = -12.0
+offset_right = 12.0
+offset_bottom = 12.0
+color = Color(0.4, 0.7, 0.3, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Enemies/Goblin"]
+shape = SubResource("enemy_shape")
+
+[node name="HealthBar" type="ProgressBar" parent="Room/Enemies/Goblin"]
+offset_left = -25.0
+offset_top = -28.0
+offset_right = 25.0
+offset_bottom = -18.0
+max_value = 30.0
+value = 30.0
+show_percentage = false
+modulate = Color(1, 0.3, 0.3, 1)
+script = SubResource("enemy_health_script")
+
+[node name="Label" type="Label" parent="Room/Enemies/Goblin"]
+offset_left = -30.0
+offset_top = -35.0
+offset_right = 30.0
+offset_bottom = -20.0
+text = "Goblin"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+anchor_right = 0.3
+anchor_bottom = 0.05
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 300.0
+offset_bottom = 50.0
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="HealthLabel" type="Label" parent="UI/HealthBar"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Health: 100/100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SpellInventory" type="VBoxContainer" parent="UI"]
+anchor_left = 1.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 0.0
+offset_left = -200.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = 200.0
+script = ExtResource("6_spell_inventory")
+
+[node name="Label" type="Label" parent="UI/SpellInventory"]
+layout_mode = 2
+text = "Spells (1-4):"
+horizontal_alignment = 1
+
+[node name="SpellSlot1" type="HBoxContainer" parent="UI/SpellInventory"]
+layout_mode = 2
+
+[node name="KeyLabel" type="Label" parent="UI/SpellInventory/SpellSlot1"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "1:"
+horizontal_alignment = 2
+
+[node name="SpellName" type="Label" parent="UI/SpellInventory/SpellSlot1"]
+layout_mode = 2
+text = "Empty"
+modulate = Color(0.5, 0.5, 0.5, 1)
+
+[node name="SpellSlot2" type="HBoxContainer" parent="UI/SpellInventory"]
+layout_mode = 2
+
+[node name="KeyLabel" type="Label" parent="UI/SpellInventory/SpellSlot2"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "2:"
+horizontal_alignment = 2
+
+[node name="SpellName" type="Label" parent="UI/SpellInventory/SpellSlot2"]
+layout_mode = 2
+text = "Empty"
+modulate = Color(0.5, 0.5, 0.5, 1)
+
+[node name="SpellSlot3" type="HBoxContainer" parent="UI/SpellInventory"]
+layout_mode = 2
+
+[node name="KeyLabel" type="Label" parent="UI/SpellInventory/SpellSlot3"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "3:"
+horizontal_alignment = 2
+
+[node name="SpellName" type="Label" parent="UI/SpellInventory/SpellSlot3"]
+layout_mode = 2
+text = "Empty"
+modulate = Color(0.5, 0.5, 0.5, 1)
+
+[node name="SpellSlot4" type="HBoxContainer" parent="UI/SpellInventory"]
+layout_mode = 2
+
+[node name="KeyLabel" type="Label" parent="UI/SpellInventory/SpellSlot4"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "4:"
+horizontal_alignment = 2
+
+[node name="SpellName" type="Label" parent="UI/SpellInventory/SpellSlot4"]
+layout_mode = 2
+text = "Empty"
+modulate = Color(0.5, 0.5, 0.5, 1)
+
+[node name="Instructions" type="VBoxContainer" parent="UI"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -200.0
+offset_top = -150.0
+offset_right = 200.0
+offset_bottom = -20.0
+
+[node name="Label" type="Label" parent="UI/Instructions"]
+layout_mode = 2
+text = "WASD: Move
+TAB: Switch Spells
+SPACE: Cast Spell
+E: Interact with doors
+Collect spells first!"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="health_changed" from="Room/Player" to="UI/HealthBar" method="_on_player_health_changed"]
+[connection signal="spell_collected" from="Room/Player" to="UI/SpellInventory" method="_on_spell_collected"]
+[connection signal="current_spell_changed" from="Room/Player" to="UI/SpellInventory" method="_on_current_spell_changed"]
+[connection signal="health_changed" from="Room/Enemies/Goblin" to="Room/Enemies/Goblin/HealthBar" method="_on_enemy_health_changed"]
+
+[editable path="Room/Player"]

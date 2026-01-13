@@ -9,27 +9,51 @@ extends CharacterBody2D
 @export var damage: int = 10
 @export var experience_reward: int = 10
 
-@onready var sprite: Sprite2D = $Sprite2D
+@onready var visual: ColorRect = $Visual
 @onready var collision: CollisionShape2D = $CollisionShape2D
 
 var current_health: int
 var player: Node2D = null
 var is_alive: bool = true
 
-signal enemy_died(enemy: Enemy)
+signal enemy_died(enemy: CharacterBody2D)
 signal health_changed(new_health: int, max_health: int)
 
 func _ready():
 	current_health = max_health
 	find_player()
+	add_to_group("enemies")
 	print("Enemy initialized: ", enemy_name)
+
+var damage_timer: float = 0.0
+var damage_cooldown: float = 0.5  # Damage player every 0.5 seconds
 
 func _physics_process(delta):
 	if not is_alive:
 		return
 	
 	handle_ai(delta)
+	
+	# Check if touching player for damage
+	if player:
+		var distance = global_position.distance_to(player.global_position)
+		if distance < 40:  # Close enough to damage
+			damage_timer += delta
+			if damage_timer >= damage_cooldown:
+				if player.has_method("take_damage"):
+					player.take_damage(damage)  # Only pass damage amount
+					damage_timer = 0.0
+	
+	# Move but allow player to push through
 	move_and_slide()
+	
+	# If colliding with player, move enemy away to prevent blocking
+	if player:
+		var distance = global_position.distance_to(player.global_position)
+		if distance < 35:  # Too close, push away
+			var push_dir = (global_position - player.global_position).normalized()
+			if push_dir.length() > 0:
+				global_position += push_dir * 10  # Push enemy away
 
 func find_player():
 	"""Find the player in the scene"""
@@ -56,10 +80,10 @@ func take_damage(amount: int, source: Node2D = null):
 	health_changed.emit(current_health, max_health)
 	
 	# Visual feedback
-	if sprite:
+	if visual:
 		var tween = create_tween()
-		sprite.modulate = Color.RED
-		tween.tween_property(sprite, "modulate", Color.WHITE, 0.2)
+		visual.color = Color(1, 0.3, 0.3, 1)
+		tween.tween_property(visual, "color", Color(0.4, 0.7, 0.3, 1), 0.2)
 	
 	if current_health <= 0:
 		die()
@@ -81,8 +105,12 @@ func die():
 	
 	queue_free()
 
+func apply_knockback(force: Vector2):
+	"""Apply knockback force (for when player pushes enemy)"""
+	global_position += force * get_physics_process_delta_time()
+
 func _on_body_entered(body):
-	"""Handle collision with player"""
-	if body.is_in_group("player"):
-		if body.has_method("take_damage"):
-			body.take_damage(damage, self)
+	"""Handle collision with player - use Area2D for this instead"""
+	# This is for Area2D collision detection
+	# For CharacterBody2D, we handle damage in _physics_process
+	pass
