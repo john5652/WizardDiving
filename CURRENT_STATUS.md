@@ -50,11 +50,14 @@ When you run the game (F5 in Godot), you should see:
 - ✅ **Spell casting** - Cast spells with 1-4 keys or TAB+SPACE, fires in movement direction
 - ✅ **Spell inventory UI** - Shows all 4 spell slots with current selection highlighted
 - ✅ **Enemy system** - Basic AI that chases player, deals contact damage, has health bar
+  - ✅ **Goblin enemy** - Ground-based enemy with animations
+  - ✅ **Bat enemy** - Flying enemy with swoop attacks (NEW!)
 - ✅ **Combat system** - Spells damage enemies, enemies damage player on contact
 - ✅ **Door/unlock system** - Locked doors require specific spells to unlock (press E near door)
-- ✅ **Test level** - Fully playable level with spells, enemies, doors, and walls
+- ✅ **Multiple biomes** - Dark Forest, Dungeon, Test Level with unique backgrounds
 - ✅ **Magic School Management** - Complete UI with class teaching, unlocking, and upgrades
 - ✅ **Quest System** - Complete UI with quest log, progress tracking, and notifications
+- ✅ **Material Collection System** - Collect materials, auto-collect monster parts, use for upgrades (NEW!)
 
 ### Phase 4: Visual Polish ✅ (PARTIALLY COMPLETE)
 - ✅ **Player sprite** - Wizard sprite with walk/run/idle animations (AnimatedSprite2D)
@@ -108,7 +111,8 @@ When you run the game (F5 in Godot), you should see:
 
 #### 5. **More Content** (Ongoing) 🟡 MEDIUM PRIORITY
 - [x] Create 2-3 more levels/rooms ✅ (Dark Forest, Dungeon created)
-- [ ] Add 1-2 more enemy types (different behaviors) - Bat enemy available but not integrated yet
+- [x] Add 1-2 more enemy types (different behaviors) ✅ (Bat enemy integrated with flying AI)
+- [x] Add material pickups to biomes ✅ (Materials in Dark Forest, Dungeon, Test Level)
 - [ ] Add 3-5 more spells
 - [ ] Add NPCs with dialogue (future)
 
@@ -212,10 +216,11 @@ To verify everything works:
 **Next priorities:**
 1. ✅ **Level/Biome Transition System** - COMPLETE! Hub, multiple biomes, return to school ✅
 2. ✅ **School Hub Scene** - COMPLETE! Physical school scene created ✅
-3. **Material Collection System** - Add materials, inventory, connect to upgrades (NEXT)
-4. **Integrate Bat Enemy** - Add flying bat enemy to dungeon levels
-5. **Death/Respawn** - Complete the combat loop
-6. **More Content** - Add more levels, enemies, spells
+3. ✅ **Material Collection System** - COMPLETE! Materials, inventory, upgrade integration ✅
+4. ✅ **Bat Enemy Integration** - COMPLETE! Flying bat enemies in dungeon levels ✅
+5. ✅ **Material Pickups in Biomes** - COMPLETE! Materials added to all exploration areas ✅
+6. **Death/Respawn** - Complete the combat loop
+7. **More Content** - Add more levels, enemies, spells
 
 See `GAME_MECHANICS.md` for detailed recommendations and priority matrix.
 

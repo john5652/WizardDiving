@@ -1,9 +1,11 @@
-[gd_scene load_steps=12 format=3 uid="uid://dungeon_001"]
+[gd_scene load_steps=14 format=3 uid="uid://dungeon_001"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_player"]
 [ext_resource type="Script" path="res://scripts/spells/spell_pickup.gd" id="2_spell_pickup"]
+[ext_resource type="Script" path="res://scripts/exploration/material_pickup.gd" id="12_material_pickup"]
 [ext_resource type="Script" path="res://scripts/exploration/door.gd" id="3_door"]
 [ext_resource type="Script" path="res://scripts/enemies/enemy.gd" id="4_enemy"]
+[ext_resource type="Script" path="res://scripts/enemies/bat_enemy.gd" id="11_bat_enemy"]
 [ext_resource type="Script" path="res://scripts/exploration/room.gd" id="5_room"]
 [ext_resource type="Script" path="res://scripts/ui/spell_inventory_ui.gd" id="6_spell_inventory"]
 [ext_resource type="Script" path="res://scripts/enemies/enemy_health_bar.gd" id="7_enemy_health"]
@@ -167,6 +169,164 @@ text = "Fireball"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="MaterialPickups" type="Node2D" parent="Room"]
+
+[node name="ManaCrystal1" type="Area2D" parent="Room/MaterialPickups"]
+position = Vector2(400, 400)
+script = ExtResource("12_material_pickup")
+material_id = "crystal_mana"
+quantity = 10
+pickup_id = "dungeon_01_crystal_mana_01"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/MaterialPickups/ManaCrystal1"]
+shape = SubResource("spell_pickup_shape")
+
+[node name="Sprite2D" type="ColorRect" parent="Room/MaterialPickups/ManaCrystal1"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(0.3, 0.5, 1.0, 1)
+
+[node name="Glow" type="ColorRect" parent="Room/MaterialPickups/ManaCrystal1/Sprite2D"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+color = Color(0.4, 0.6, 1.0, 0.6)
+
+[node name="Label" type="Label" parent="Room/MaterialPickups/ManaCrystal1"]
+offset_left = -30.0
+offset_top = -35.0
+offset_right = 30.0
+offset_bottom = -15.0
+text = "Mana Crystal x10"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ManaCrystal2" type="Area2D" parent="Room/MaterialPickups"]
+position = Vector2(1100, 200)
+script = ExtResource("12_material_pickup")
+material_id = "crystal_mana"
+quantity = 8
+pickup_id = "dungeon_01_crystal_mana_02"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/MaterialPickups/ManaCrystal2"]
+shape = SubResource("spell_pickup_shape")
+
+[node name="Sprite2D" type="ColorRect" parent="Room/MaterialPickups/ManaCrystal2"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(0.3, 0.5, 1.0, 1)
+
+[node name="Glow" type="ColorRect" parent="Room/MaterialPickups/ManaCrystal2/Sprite2D"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+color = Color(0.4, 0.6, 1.0, 0.6)
+
+[node name="Label" type="Label" parent="Room/MaterialPickups/ManaCrystal2"]
+offset_left = -30.0
+offset_top = -35.0
+offset_right = 30.0
+offset_bottom = -15.0
+text = "Mana Crystal x8"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RareCrystal1" type="Area2D" parent="Room/MaterialPickups"]
+position = Vector2(700, 600)
+script = ExtResource("12_material_pickup")
+material_id = "crystal_rare"
+quantity = 2
+pickup_id = "dungeon_01_crystal_rare_01"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/MaterialPickups/RareCrystal1"]
+shape = SubResource("spell_pickup_shape")
+
+[node name="Sprite2D" type="ColorRect" parent="Room/MaterialPickups/RareCrystal1"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(0.8, 0.3, 1.0, 1)
+
+[node name="Glow" type="ColorRect" parent="Room/MaterialPickups/RareCrystal1/Sprite2D"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+color = Color(0.9, 0.4, 1.0, 0.6)
+
+[node name="Label" type="Label" parent="Room/MaterialPickups/RareCrystal1"]
+offset_left = -30.0
+offset_top = -35.0
+offset_right = 30.0
+offset_bottom = -15.0
+text = "Rare Crystal x2"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AncientRune1" type="Area2D" parent="Room/MaterialPickups"]
+position = Vector2(850, 150)
+script = ExtResource("12_material_pickup")
+material_id = "rune_ancient"
+quantity = 1
+pickup_id = "dungeon_01_rune_ancient_01"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/MaterialPickups/AncientRune1"]
+shape = SubResource("spell_pickup_shape")
+
+[node name="Sprite2D" type="ColorRect" parent="Room/MaterialPickups/AncientRune1"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(1.0, 0.8, 0.2, 1)
+
+[node name="Glow" type="ColorRect" parent="Room/MaterialPickups/AncientRune1/Sprite2D"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+color = Color(1.0, 0.9, 0.3, 0.6)
+
+[node name="Label" type="Label" parent="Room/MaterialPickups/AncientRune1"]
+offset_left = -30.0
+offset_top = -35.0
+offset_right = 30.0
+offset_bottom = -15.0
+text = "Ancient Rune x1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Enemies" type="Node2D" parent="Room"]
 
 [node name="Goblin" type="CharacterBody2D" parent="Room/Enemies"]
@@ -201,6 +361,76 @@ offset_top = -35.0
 offset_right = 30.0
 offset_bottom = -20.0
 text = "Dungeon Goblin"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Bat1" type="CharacterBody2D" parent="Room/Enemies"]
+position = Vector2(600, 200)
+script = ExtResource("11_bat_enemy")
+enemy_name = "Dungeon Bat"
+enemy_id = "dungeon_01_bat_01"
+max_health = 20
+speed = 120.0
+damage = 4
+experience_reward = 10
+
+[node name="Visual" type="AnimatedSprite2D" parent="Room/Enemies/Bat1"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Enemies/Bat1"]
+shape = SubResource("enemy_shape")
+
+[node name="HealthBar" type="ProgressBar" parent="Room/Enemies/Bat1"]
+offset_left = -25.0
+offset_top = -28.0
+offset_right = 25.0
+offset_bottom = -18.0
+max_value = 20.0
+value = 20.0
+show_percentage = false
+modulate = Color(0.8, 0.2, 0.8, 1)
+script = SubResource("enemy_health_script")
+
+[node name="Label" type="Label" parent="Room/Enemies/Bat1"]
+offset_left = -30.0
+offset_top = -35.0
+offset_right = 30.0
+offset_bottom = -20.0
+text = "Dungeon Bat"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Bat2" type="CharacterBody2D" parent="Room/Enemies"]
+position = Vector2(1000, 500)
+script = ExtResource("11_bat_enemy")
+enemy_name = "Dungeon Bat"
+enemy_id = "dungeon_01_bat_02"
+max_health = 20
+speed = 120.0
+damage = 4
+experience_reward = 10
+
+[node name="Visual" type="AnimatedSprite2D" parent="Room/Enemies/Bat2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Enemies/Bat2"]
+shape = SubResource("enemy_shape")
+
+[node name="HealthBar" type="ProgressBar" parent="Room/Enemies/Bat2"]
+offset_left = -25.0
+offset_top = -28.0
+offset_right = 25.0
+offset_bottom = -18.0
+max_value = 20.0
+value = 20.0
+show_percentage = false
+modulate = Color(0.8, 0.2, 0.8, 1)
+script = SubResource("enemy_health_script")
+
+[node name="Label" type="Label" parent="Room/Enemies/Bat2"]
+offset_left = -30.0
+offset_top = -35.0
+offset_right = 30.0
+offset_bottom = -20.0
+text = "Dungeon Bat"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -320,5 +550,7 @@ script = ExtResource("10_return_button")
 [connection signal="spell_collected" from="Room/Player" to="UI/SpellInventory" method="_on_spell_collected"]
 [connection signal="current_spell_changed" from="Room/Player" to="UI/SpellInventory" method="_on_current_spell_changed"]
 [connection signal="health_changed" from="Room/Enemies/Goblin" to="Room/Enemies/Goblin/HealthBar" method="_on_enemy_health_changed"]
+[connection signal="health_changed" from="Room/Enemies/Bat1" to="Room/Enemies/Bat1/HealthBar" method="_on_enemy_health_changed"]
+[connection signal="health_changed" from="Room/Enemies/Bat2" to="Room/Enemies/Bat2/HealthBar" method="_on_enemy_health_changed"]
 
 [editable path="Room/Player"]

@@ -126,6 +126,20 @@ func die():
 	if SaveManager:
 		SaveManager.register_enemy_defeated(get_room_id(), enemy_id)
 	
+	# Auto-collect monster parts based on enemy type
+	if MaterialManager:
+		var material_id = ""
+		if "goblin" in enemy_name.to_lower():
+			material_id = "monster_part_goblin"
+		elif "bat" in enemy_name.to_lower():
+			material_id = "monster_part_bat"
+		
+		if material_id != "":
+			# Random quantity: 1-3 monster parts
+			var quantity = randi_range(1, 3)
+			MaterialManager.collect_material(material_id, quantity)
+			print("Auto-collected ", quantity, "x ", MaterialManager.get_material(material_id).get("name", material_id))
+	
 	# TODO: Add death animation, drop items, etc.
 	print("Enemy died: ", enemy_name)
 	

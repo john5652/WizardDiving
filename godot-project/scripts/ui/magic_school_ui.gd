@@ -67,8 +67,8 @@ func create_upgrade_buttons():
 	var upgrade_data = {
 		"library": {"name": "Library", "cost": 50, "description": "Unlocks new spells"},
 		"workshop": {"name": "Workshop", "cost": 100, "description": "Craft spell upgrades"},
-		"garden": {"name": "Herb Garden", "cost": 75, "description": "Grow spell ingredients"},
-		"tower": {"name": "Observation Tower", "cost": 200, "description": "Reveal hidden areas"}
+		"herb_garden": {"name": "Herb Garden", "cost": 75, "description": "Grow spell ingredients"},
+		"observation_tower": {"name": "Observation Tower", "cost": 200, "description": "Reveal hidden areas"}
 	}
 	
 	for upgrade_id in upgrade_data:
@@ -76,8 +76,23 @@ func create_upgrade_buttons():
 		var hbox = HBoxContainer.new()
 		
 		var button = Button.new()
-		button.text = upgrade_info.name + " (" + str(upgrade_info.cost) + " crystals)"
-		button.custom_minimum_size = Vector2(200, 40)
+		# Get material requirements
+		var material_reqs = SchoolManager.get_upgrade_requirements(upgrade_id)
+		var button_text = upgrade_info.name + " (" + str(upgrade_info.cost) + " crystals"
+		if not material_reqs.is_empty() and MaterialManager:
+			var req_text = ""
+			for material_id in material_reqs:
+				var material_data = MaterialManager.get_material(material_id)
+				var material_name = material_data.get("name", material_id)
+				var quantity = material_reqs[material_id]
+				if req_text != "":
+					req_text += ", "
+				req_text += str(quantity) + "x " + material_name
+			if req_text != "":
+				button_text += " + " + req_text
+		button_text += ")"
+		button.text = button_text
+		button.custom_minimum_size = Vector2(300, 40)
 		button.pressed.connect(_on_upgrade_button_pressed.bind(upgrade_id, upgrade_info.cost))
 		
 		var label = Label.new()
@@ -146,11 +161,21 @@ func _on_class_button_pressed(class_id: String, unlock_cost: int):
 
 func _on_upgrade_button_pressed(upgrade_id: String, cost: int):
 	"""Handle upgrade button press"""
-	if SchoolManager.upgrade_school(upgrade_id, cost):
+	var material_reqs = SchoolManager.get_upgrade_requirements(upgrade_id)
+	if SchoolManager.upgrade_school(upgrade_id, cost, material_reqs):
 		print("Upgraded: ", upgrade_id)
 		update_display()
 	else:
-		print("Cannot afford upgrade: ", upgrade_id, " (Need ", cost, " crystals)")
+		var error_msg = "Cannot afford upgrade: " + upgrade_id + " (Need " + str(cost) + " crystals"
+		if not material_reqs.is_empty() and MaterialManager:
+			for material_id in material_reqs:
+				var material_data = MaterialManager.get_material(material_id)
+				var material_name = material_data.get("name", material_id)
+				var required = material_reqs[material_id]
+				var has = MaterialManager.get_material_quantity(material_id)
+				error_msg += ", " + str(required) + "x " + material_name + " (have " + str(has) + ")"
+		error_msg += ")"
+		print(error_msg)
 
 func _on_return_button_pressed():
 	"""Return to previous scene (test level or main menu)"""

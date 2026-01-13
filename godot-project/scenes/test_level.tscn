@@ -1,7 +1,8 @@
-[gd_scene load_steps=12 format=3 uid="uid://test_level_001"]
+[gd_scene load_steps=13 format=3 uid="uid://test_level_001"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_player"]
 [ext_resource type="Script" path="res://scripts/spells/spell_pickup.gd" id="2_spell_pickup"]
+[ext_resource type="Script" path="res://scripts/exploration/material_pickup.gd" id="12_material_pickup"]
 [ext_resource type="Script" path="res://scripts/exploration/door.gd" id="3_door"]
 [ext_resource type="Script" path="res://scripts/enemies/enemy.gd" id="4_enemy"]
 [ext_resource type="Script" path="res://scripts/exploration/room.gd" id="5_room"]
@@ -240,6 +241,86 @@ offset_top = -35.0
 offset_right = 30.0
 offset_bottom = -15.0
 text = "Unlock Door"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="MaterialPickups" type="Node2D" parent="Room"]
+
+[node name="ManaCrystal1" type="Area2D" parent="Room/MaterialPickups"]
+position = Vector2(300, 300)
+script = ExtResource("12_material_pickup")
+material_id = "crystal_mana"
+quantity = 5
+pickup_id = "test_room_01_crystal_mana_01"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/MaterialPickups/ManaCrystal1"]
+shape = SubResource("spell_pickup_shape")
+
+[node name="Sprite2D" type="ColorRect" parent="Room/MaterialPickups/ManaCrystal1"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(0.3, 0.5, 1.0, 1)
+
+[node name="Glow" type="ColorRect" parent="Room/MaterialPickups/ManaCrystal1/Sprite2D"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+color = Color(0.4, 0.6, 1.0, 0.6)
+
+[node name="Label" type="Label" parent="Room/MaterialPickups/ManaCrystal1"]
+offset_left = -30.0
+offset_top = -35.0
+offset_right = 30.0
+offset_bottom = -15.0
+text = "Mana Crystal x5"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CommonHerb1" type="Area2D" parent="Room/MaterialPickups"]
+position = Vector2(650, 400)
+script = ExtResource("12_material_pickup")
+material_id = "herb_common"
+quantity = 3
+pickup_id = "test_room_01_herb_common_01"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/MaterialPickups/CommonHerb1"]
+shape = SubResource("spell_pickup_shape")
+
+[node name="Sprite2D" type="ColorRect" parent="Room/MaterialPickups/CommonHerb1"]
+offset_left = -10.0
+offset_top = -10.0
+offset_right = 10.0
+offset_bottom = 10.0
+color = Color(0.2, 0.8, 0.3, 1)
+
+[node name="Glow" type="ColorRect" parent="Room/MaterialPickups/CommonHerb1/Sprite2D"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+offset_left = -3.0
+offset_top = -3.0
+offset_right = 3.0
+offset_bottom = 3.0
+color = Color(0.3, 0.9, 0.4, 0.6)
+
+[node name="Label" type="Label" parent="Room/MaterialPickups/CommonHerb1"]
+offset_left = -30.0
+offset_top = -35.0
+offset_right = 30.0
+offset_bottom = -15.0
+text = "Common Herb x3"
 horizontal_alignment = 1
 vertical_alignment = 1
 
