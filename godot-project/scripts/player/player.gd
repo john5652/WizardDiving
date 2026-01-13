@@ -9,7 +9,7 @@ extends CharacterBody2D
 @export var max_health: int = 100
 @export var current_health: int = 100
 
-@onready var visual: Sprite2D = $Visual
+@onready var visual: AnimatedSprite2D = $Visual
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var spell_cast_point: Node2D = $SpellCastPoint
 
@@ -33,14 +33,10 @@ func _ready():
 	# Initialize equipped_spells with 4 null slots
 	equipped_spells.resize(4)
 	
-	# Load wizard sprite texture
+	# Set up wizard animations
 	if visual:
-		var texture_path = "res://assets/sprites/characters/player/Wizard 1/PNG/wizard_1.png"
-		if ResourceLoader.exists(texture_path):
-			visual.texture = load(texture_path)
-			visual.scale = Vector2(0.5, 0.5)  # Scale down from 64-96px to ~32-48px
-		else:
-			print("Warning: Wizard texture not found at: ", texture_path)
+		setup_wizard_animations()
+		visual.scale = Vector2(2.0, 2.0)  # Increased scale for better visibility
 	
 	print("Player initialized")
 	print("Controls: WASD to move, TAB to switch spells, SPACE to cast")
@@ -67,13 +63,22 @@ func handle_movement(delta):
 		var lerp_factor = 1.0 - exp(-acceleration * delta)
 		velocity = velocity.lerp(target_velocity, lerp_factor)
 		
-		# Flip visual based on direction
+		# Flip visual based on direction and play animation
 		if input_vector.x != 0 and visual:
-			visual.scale.x = sign(input_vector.x)
+			visual.scale.x = sign(input_vector.x) * abs(visual.scale.x)
+			if velocity.length() > speed * 0.7:
+				if visual.sprite_frames and visual.sprite_frames.has_animation("run"):
+					visual.play("run")
+			else:
+				if visual.sprite_frames and visual.sprite_frames.has_animation("walk"):
+					visual.play("walk")
 	else:
 		# Apply friction when no input - also use exponential interpolation
 		var lerp_factor = 1.0 - exp(-friction * delta)
 		velocity = velocity.lerp(Vector2.ZERO, lerp_factor)
+		# Play idle animation when not moving
+		if visual and visual.sprite_frames and visual.sprite_frames.has_animation("idle"):
+			visual.play("idle")
 	
 	# Use move_and_slide with exclusion for enemies (so they don't block)
 	move_and_slide()
@@ -352,3 +357,39 @@ func update_quest_progress(quest_type: String):
 			if objective.get("type", "") == quest_type and not objective.get("completed", false):
 				quest.complete_objective(i)
 				break
+
+func setup_wizard_animations():
+	"""Set up wizard sprite animations using SpriteFrames"""
+	if not visual:
+		return
+	
+	var sprite_frames = SpriteFrames.new()
+	sprite_frames.remove_animation("default")
+	
+	var base_path = "res://assets/sprites/characters/player/Wizard 1/PNG/"
+	
+	# Create idle animation (using first walk frame as idle)
+	var idle_path = base_path + "wizard_1_walk_001.png"
+	if ResourceLoader.exists(idle_path):
+		sprite_frames.add_animation("idle")
+		sprite_frames.set_animation_speed("idle", 4.0)
+		sprite_frames.add_frame("idle", load(idle_path))
+	
+	# Create walk animation (8 frames)
+	sprite_frames.add_animation("walk")
+	sprite_frames.set_animation_speed("walk", 8.0)
+	for i in range(1, 9):
+		var frame_path = base_path + "wizard_1_walk_%03d.png" % i
+		if ResourceLoader.exists(frame_path):
+			sprite_frames.add_frame("walk", load(frame_path))
+	
+	# Create run animation (8 frames)
+	sprite_frames.add_animation("run")
+	sprite_frames.set_animation_speed("run", 10.0)
+	for i in range(1, 9):
+		var frame_path = base_path + "wizard_1_run_%03d.png" % i
+		if ResourceLoader.exists(frame_path):
+			sprite_frames.add_frame("run", load(frame_path))
+	
+	visual.sprite_frames = sprite_frames
+	visual.play("idle")

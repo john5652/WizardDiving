@@ -9,10 +9,20 @@ extends Node2D
 var doors: Array = []  # Array of Door nodes
 var enemies: Array = []  # Array of Enemy nodes
 
+@onready var background: TextureRect = $Background
+
 func _ready():
 	# Find all doors and enemies in this room
 	doors = _find_children_of_type("Door")
 	enemies = _find_children_of_type("Enemy")
+	
+	# Load background texture
+	if background:
+		var texture_path = "res://assets/sprites/environment/dungeons/fantasy_001_1920x1080.png"
+		if ResourceLoader.exists(texture_path):
+			background.texture = load(texture_path)
+		else:
+			print("Warning: Background texture not found at: ", texture_path)
 	
 	print("Room initialized: ", room_name, " (", room_id, ")")
 

@@ -47,14 +47,15 @@ script = ExtResource("5_room")
 room_id = "test_room_01"
 room_name = "Test Chamber"
 
-[node name="Background" type="ColorRect" parent="Room"]
+[node name="Background" type="TextureRect" parent="Room"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.1, 0.1, 0.15, 1)
+expand_mode = 1
+stretch_mode = 5
 
 [node name="Walls" type="Node2D" parent="Room"]
 
@@ -114,7 +115,7 @@ color = Color(0.3, 0.25, 0.2, 1)
 position = Vector2(200, 360)
 script = ExtResource("1_player")
 
-[node name="Visual" type="Sprite2D" parent="Room/Player"]
+[node name="Visual" type="AnimatedSprite2D" parent="Room/Player"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Player"]
 shape = SubResource("player_shape")
@@ -295,7 +296,7 @@ speed = 80.0
 damage = 5
 experience_reward = 15
 
-[node name="Visual" type="Sprite2D" parent="Room/Enemies/Goblin"]
+[node name="Visual" type="AnimatedSprite2D" parent="Room/Enemies/Goblin"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Enemies/Goblin"]
 shape = SubResource("enemy_shape")

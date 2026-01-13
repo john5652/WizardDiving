@@ -9,7 +9,7 @@ extends CharacterBody2D
 @export var damage: int = 10
 @export var experience_reward: int = 10
 
-@onready var visual: Sprite2D = $Visual
+@onready var visual: AnimatedSprite2D = $Visual
 @onready var collision: CollisionShape2D = $CollisionShape2D
 
 var current_health: int
@@ -24,14 +24,10 @@ func _ready():
 	find_player()
 	add_to_group("enemies")
 	
-	# Load goblin sprite texture
+	# Set up goblin animations
 	if visual:
-		var texture_path = "res://assets/sprites/characters/enemies/pixelantasy_goblin/PNG/goblin_2.png"
-		if ResourceLoader.exists(texture_path):
-			visual.texture = load(texture_path)
-			visual.scale = Vector2(0.4, 0.4)  # Scale down from 64-96px
-		else:
-			print("Warning: Goblin texture not found at: ", texture_path)
+		setup_goblin_animations()
+		visual.scale = Vector2(1.8, 1.8)  # Increased scale for better visibility
 	
 	print("Enemy initialized: ", enemy_name)
 
@@ -77,8 +73,17 @@ func handle_ai(delta):
 	if player:
 		var direction = (player.global_position - global_position).normalized()
 		velocity = direction * speed
+		# Play walk animation when moving
+		if visual and visual.sprite_frames and visual.sprite_frames.has_animation("walk"):
+			visual.play("walk")
+		# Flip sprite based on movement direction
+		if visual and direction.x != 0:
+			visual.scale.x = sign(direction.x) * abs(visual.scale.x)
 	else:
 		velocity = Vector2.ZERO
+		# Play idle animation when not moving
+		if visual and visual.sprite_frames and visual.sprite_frames.has_animation("idle"):
+			visual.play("idle")
 
 func take_damage(amount: int, source: Node2D = null):
 	"""Take damage and check for death"""
@@ -136,3 +141,31 @@ func _on_body_entered(body):
 	# This is for Area2D collision detection
 	# For CharacterBody2D, we handle damage in _physics_process
 	pass
+
+func setup_goblin_animations():
+	"""Set up goblin sprite animations using SpriteFrames"""
+	if not visual:
+		return
+	
+	var sprite_frames = SpriteFrames.new()
+	sprite_frames.remove_animation("default")
+	
+	var base_path = "res://assets/sprites/characters/enemies/pixelantasy_goblin/PNG/"
+	
+	# Create idle animation (using first walk frame as idle)
+	var idle_path = base_path + "goblin_2_walk_001.png"
+	if ResourceLoader.exists(idle_path):
+		sprite_frames.add_animation("idle")
+		sprite_frames.set_animation_speed("idle", 4.0)
+		sprite_frames.add_frame("idle", load(idle_path))
+	
+	# Create walk animation (8 frames)
+	sprite_frames.add_animation("walk")
+	sprite_frames.set_animation_speed("walk", 8.0)
+	for i in range(1, 9):
+		var frame_path = base_path + "goblin_2_walk_%03d.png" % i
+		if ResourceLoader.exists(frame_path):
+			sprite_frames.add_frame("walk", load(frame_path))
+	
+	visual.sprite_frames = sprite_frames
+	visual.play("idle")
