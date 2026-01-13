@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://test_level_001"]
+[gd_scene load_steps=10 format=3 uid="uid://test_level_001"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_player"]
 [ext_resource type="Script" path="res://scripts/spells/spell_pickup.gd" id="2_spell_pickup"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/exploration/room.gd" id="5_room"]
 [ext_resource type="Script" path="res://scripts/ui/spell_inventory_ui.gd" id="6_spell_inventory"]
 [ext_resource type="Script" path="res://scripts/enemies/enemy_health_bar.gd" id="7_enemy_health"]
+[ext_resource type="PackedScene" uid="uid://pause_menu_001" path="res://scenes/pause_menu.tscn" id="8_pause_menu"]
 
 [sub_resource type="GDScript" id="enemy_health_script"]
 script/source = "extends ProgressBar
@@ -466,9 +467,12 @@ text = "WASD: Move
 TAB: Switch Spells
 SPACE: Cast Spell
 E: Interact with doors
+ESC: Pause Menu
 Collect spells first!"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="PauseMenu" parent="UI" instance=ExtResource("8_pause_menu")]
 
 [connection signal="health_changed" from="Room/Player" to="UI/HealthBar" method="_on_player_health_changed"]
 [connection signal="spell_collected" from="Room/Player" to="UI/SpellInventory" method="_on_spell_collected"]

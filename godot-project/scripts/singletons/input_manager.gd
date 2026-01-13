@@ -50,3 +50,7 @@ func is_switch_spell_pressed() -> bool:
 func is_cast_spell_pressed() -> bool:
 	"""Check if cast current spell button is pressed"""
 	return Input.is_action_just_pressed("cast_current_spell")
+
+func is_pause_menu_pressed() -> bool:
+	"""Check if pause menu button is pressed"""
+	return Input.is_action_just_pressed("pause_menu")

@@ -3,9 +3,9 @@ extends CharacterBody2D
 ## Player Character - Wizard with flying movement
 ## Handles movement, spell casting, and player state
 
-@export var speed: float = 200.0
-@export var acceleration: float = 1000.0
-@export var friction: float = 800.0
+@export var speed: float = 250.0
+@export var acceleration: float = 12.0  # Higher = faster acceleration (using lerp factor)
+@export var friction: float = 10.0  # Higher = faster deceleration (using lerp factor)
 @export var max_health: int = 100
 @export var current_health: int = 100
 
@@ -45,19 +45,25 @@ func _physics_process(delta):
 		tab_cooldown -= delta
 
 func handle_movement(delta):
-	"""Handle player movement with smooth acceleration"""
+	"""Handle player movement with smooth acceleration using exponential interpolation"""
 	var input_vector = InputManager.get_movement_input()
 	
-	if input_vector.length() > 0:
-		# Accelerate towards input direction
-		velocity = velocity.move_toward(input_vector * speed, acceleration * delta)
+	if input_vector.length() > 0.1:
+		# Calculate target velocity
+		var target_velocity = input_vector * speed
+		
+		# Use exponential interpolation for smooth acceleration
+		# This creates a more natural feeling acceleration curve
+		var lerp_factor = 1.0 - exp(-acceleration * delta)
+		velocity = velocity.lerp(target_velocity, lerp_factor)
 		
 		# Flip visual based on direction
 		if input_vector.x != 0 and visual:
 			visual.scale.x = sign(input_vector.x)
 	else:
-		# Apply friction when no input
-		velocity = velocity.move_toward(Vector2.ZERO, friction * delta)
+		# Apply friction when no input - also use exponential interpolation
+		var lerp_factor = 1.0 - exp(-friction * delta)
+		velocity = velocity.lerp(Vector2.ZERO, lerp_factor)
 	
 	# Use move_and_slide with exclusion for enemies (so they don't block)
 	move_and_slide()
@@ -78,16 +84,30 @@ var last_tab_state: bool = false
 
 func handle_input():
 	"""Handle player input for spells and interactions"""
-	# Check for spell switching (TAB) - detect key press
-	var tab_pressed = Input.is_key_pressed(KEY_TAB) or Input.is_action_pressed("switch_spell")
-	var tab_just_pressed = Input.is_action_just_pressed("switch_spell")
+	# Don't process input if game is paused
+	if get_tree().paused:
+		return
 	
-	# Detect TAB key just pressed (edge detection)
-	if tab_pressed and not last_tab_state and tab_cooldown <= 0:
-		switch_to_next_spell()
-		tab_cooldown = tab_cooldown_time
+	# Check for spell switching (TAB)
+	# Try action first, then fallback to direct key check
+	var tab_pressed_now = Input.is_key_pressed(KEY_TAB) or Input.is_action_pressed("switch_spell")
 	
-	last_tab_state = tab_pressed
+	# Edge detection: only trigger when transitioning from not pressed to pressed
+	if tab_pressed_now and not last_tab_state:
+		# Make sure Escape isn't also pressed
+		if not Input.is_key_pressed(KEY_ESCAPE):
+			if tab_cooldown <= 0:
+				switch_to_next_spell()
+				tab_cooldown = tab_cooldown_time
+	
+	# Also check action's just_pressed as a backup
+	if Input.is_action_just_pressed("switch_spell") and not Input.is_key_pressed(KEY_ESCAPE):
+		if tab_cooldown <= 0:
+			switch_to_next_spell()
+			tab_cooldown = tab_cooldown_time
+	
+	# Update last state for edge detection
+	last_tab_state = tab_pressed_now
 	
 	# Check for casting current spell (SPACE)
 	if InputManager.is_cast_spell_pressed():
