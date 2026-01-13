@@ -1,0 +1,7 @@
+# Python requirements for content generator
+# For future AI integration, you may want to add:
+# openai>=1.0.0
+# anthropic>=0.18.0
+
+# Currently just uses standard library
+# No external dependencies required for basic version

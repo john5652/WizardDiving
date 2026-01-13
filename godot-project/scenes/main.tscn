@@ -1,0 +1,50 @@
+[gd_scene load_steps=2 format=3 uid="uid://bqj8k7x3m4n5p"]
+
+[ext_resource type="Script" path="res://scripts/player/player.gd" id="1_1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1"]
+size = Vector2(32, 32)
+
+[node name="Main" type="Node2D"]
+
+[node name="Player" type="CharacterBody2D" parent="."]
+position = Vector2(640, 360)
+script = ExtResource("1_1")
+
+[node name="Sprite2D" type="Sprite2D" parent="Player"]
+modulate = Color(0.2, 0.6, 1, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Player"]
+shape = SubResource("RectangleShape2D_1")
+
+[node name="SpellCastPoint" type="Node2D" parent="Player"]
+position = Vector2(16, 0)
+
+[node name="Camera2D" type="Camera2D" parent="Player"]
+position = Vector2(0, 0)
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="HealthBar" type="ProgressBar" parent="UI"]
+anchor_right = 0.3
+anchor_bottom = 0.05
+offset_left = 20.0
+offset_top = 20.0
+offset_right = 300.0
+offset_bottom = 50.0
+max_value = 100.0
+value = 100.0
+show_percentage = false
+
+[node name="HealthLabel" type="Label" parent="UI/HealthBar"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Health: 100/100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="health_changed" from="Player" to="UI/HealthBar" method="_on_player_health_changed"]
