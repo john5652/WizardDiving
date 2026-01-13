@@ -43,7 +43,7 @@ function Install-WithChoco {
 Write-Host "Checking Git installation..." -ForegroundColor Yellow
 if (Test-Command git) {
     $gitVersion = git --version
-    Write-Host "✓ Git is installed: $gitVersion" -ForegroundColor Green
+    Write-Host "[OK] Git is installed: $gitVersion" -ForegroundColor Green
 } else {
     Write-Host "Git not found. Attempting to install..." -ForegroundColor Yellow
     $installed = $false
@@ -54,7 +54,7 @@ if (Test-Command git) {
     }
     
     # Try Chocolatey if winget failed
-    if (-not $installed -and Test-Command choco) {
+    if (-not $installed -and (Test-Command choco)) {
         $installed = Install-WithChoco "git" "Git"
     }
     
@@ -72,7 +72,7 @@ Write-Host ""
 Write-Host "Checking Python installation..." -ForegroundColor Yellow
 if (Test-Command python) {
     $pythonVersion = python --version
-    Write-Host "✓ Python is installed: $pythonVersion" -ForegroundColor Green
+    Write-Host "[OK] Python is installed: $pythonVersion" -ForegroundColor Green
 } else {
     Write-Host "Python not found. Attempting to install..." -ForegroundColor Yellow
     $installed = $false
@@ -81,7 +81,7 @@ if (Test-Command python) {
         $installed = Install-WithWinget "Python.Python.3.12" "Python 3.12"
     }
     
-    if (-not $installed -and Test-Command choco) {
+    if (-not $installed -and (Test-Command choco)) {
         $installed = Install-WithChoco "python" "Python"
     }
     
@@ -114,7 +114,7 @@ foreach ($path in $godotPaths) {
 }
 
 if ($godotPath) {
-    Write-Host "✓ Godot found at: $godotPath" -ForegroundColor Green
+    Write-Host "[OK] Godot found at: $godotPath" -ForegroundColor Green
 } else {
     Write-Host "Godot not found. You'll need to install it manually:" -ForegroundColor Yellow
     Write-Host "  1. Download Godot 4.x from: https://godotengine.org/download" -ForegroundColor Yellow
@@ -122,18 +122,25 @@ if ($godotPath) {
     Write-Host "  3. Optionally add to PATH or create a shortcut" -ForegroundColor Yellow
     Write-Host ""
     Write-Host "  For easy access, you can add Godot to your PATH:" -ForegroundColor Yellow
-    Write-Host "    [Environment]::SetEnvironmentVariable('Path', `$env:Path + ';C:\Godot', 'User')" -ForegroundColor Cyan
+    $pathCmd = "[Environment]::SetEnvironmentVariable('Path', `$env:Path + ';C:\Godot', 'User')"
+    Write-Host "    $pathCmd" -ForegroundColor Cyan
 }
 
 # Verify Git configuration
 Write-Host ""
 Write-Host "Checking Git configuration..." -ForegroundColor Yellow
-$gitUser = git config --global user.name 2>$null
-$gitEmail = git config --global user.email 2>$null
-
-if ($gitUser -and $gitEmail) {
-    Write-Host "✓ Git configured: $gitUser <$gitEmail>" -ForegroundColor Green
-} else {
+try {
+    $gitUser = git config --global user.name 2>&1
+    $gitEmail = git config --global user.email 2>&1
+    
+    if ($gitUser -and $gitEmail -and $gitUser -notmatch "error" -and $gitEmail -notmatch "error") {
+        Write-Host "[OK] Git configured: $gitUser ($gitEmail)" -ForegroundColor Green
+    } else {
+        Write-Host "Git user information not configured. Please set it:" -ForegroundColor Yellow
+        Write-Host "  git config --global user.name 'Your Name'" -ForegroundColor Cyan
+        Write-Host "  git config --global user.email 'your.email@example.com'" -ForegroundColor Cyan
+    }
+} catch {
     Write-Host "Git user information not configured. Please set it:" -ForegroundColor Yellow
     Write-Host "  git config --global user.name 'Your Name'" -ForegroundColor Cyan
     Write-Host "  git config --global user.email 'your.email@example.com'" -ForegroundColor Cyan
@@ -142,18 +149,18 @@ if ($gitUser -and $gitEmail) {
 # Summary
 Write-Host ""
 Write-Host "=== Setup Summary ===" -ForegroundColor Cyan
-Write-Host "✓ Git: " -NoNewline
+Write-Host "[*] Git: " -NoNewline
 if (Test-Command git) { Write-Host "Installed" -ForegroundColor Green } else { Write-Host "Not Found" -ForegroundColor Red }
-Write-Host "✓ Python: " -NoNewline
+Write-Host "[*] Python: " -NoNewline
 if (Test-Command python) { Write-Host "Installed" -ForegroundColor Green } else { Write-Host "Not Found" -ForegroundColor Yellow }
-Write-Host "✓ Godot: " -NoNewline
+Write-Host "[*] Godot: " -NoNewline
 if ($godotPath) { Write-Host "Found" -ForegroundColor Green } else { Write-Host "Not Found - Install Manually" -ForegroundColor Yellow }
 
 Write-Host ""
 Write-Host "Next steps:" -ForegroundColor Cyan
 Write-Host "1. If Git wasn't configured, set your user name and email" -ForegroundColor White
 Write-Host "2. Install Godot 4.x if not already installed" -ForegroundColor White
-Write-Host "3. Clone the repository: git clone <repository-url>" -ForegroundColor White
+Write-Host "3. Clone the repository: git clone [repository-url]" -ForegroundColor White
 Write-Host "4. Open the project in Godot: godot-project/project.godot" -ForegroundColor White
 Write-Host ""
 Write-Host "Setup complete!" -ForegroundColor Green
