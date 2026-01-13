@@ -9,7 +9,7 @@ extends CharacterBody2D
 @export var max_health: int = 100
 @export var current_health: int = 100
 
-@onready var visual: ColorRect = $Visual
+@onready var visual: Sprite2D = $Visual
 @onready var collision_shape: CollisionShape2D = $CollisionShape2D
 @onready var spell_cast_point: Node2D = $SpellCastPoint
 
@@ -32,6 +32,16 @@ func _ready():
 	add_to_group("player")
 	# Initialize equipped_spells with 4 null slots
 	equipped_spells.resize(4)
+	
+	# Load wizard sprite texture
+	if visual:
+		var texture_path = "res://assets/sprites/characters/player/Wizard 1/PNG/wizard_1.png"
+		if ResourceLoader.exists(texture_path):
+			visual.texture = load(texture_path)
+			visual.scale = Vector2(0.5, 0.5)  # Scale down from 64-96px to ~32-48px
+		else:
+			print("Warning: Wizard texture not found at: ", texture_path)
+	
 	print("Player initialized")
 	print("Controls: WASD to move, TAB to switch spells, SPACE to cast")
 
@@ -200,18 +210,27 @@ func update_cooldowns(delta):
 
 func check_interactions():
 	"""Check for interactable objects nearby"""
-	var space_state = get_world_2d().direct_space_state
-	var query = PhysicsShapeQueryParameters2D.new()
-	query.shape = collision_shape.shape
-	query.transform = global_transform
-	query.collision_mask = 2  # Interactable layer
+	# Find all interactable objects
+	var interactables = get_tree().get_nodes_in_group("interactable")
+	var closest_interactable = null
+	var closest_distance = 80.0  # Interaction range
 	
-	var results = space_state.intersect_shape(query, 1)
-	for result in results:
-		var collider = result.collider
-		if collider.has_method("interact"):
-			collider.interact(self)
-			break
+	for obj in interactables:
+		var distance = global_position.distance_to(obj.global_position)
+		if distance < closest_distance:
+			closest_distance = distance
+			closest_interactable = obj
+	
+	# Interact with closest object
+	if closest_interactable and closest_interactable.has_method("interact"):
+		closest_interactable.interact(self)
+		print("Player interacting with: ", closest_interactable.name, " (distance: ", closest_distance, ")")
+		return
+	
+	if interactables.size() > 0:
+		print("Found ", interactables.size(), " interactables, but none close enough (closest: ", closest_distance, ")")
+	else:
+		print("No interactable objects found")
 
 func collect_spell(spell_data: Dictionary):
 	"""Collect a spell and add to inventory"""
@@ -223,6 +242,9 @@ func collect_spell(spell_data: Dictionary):
 	spell_collected.emit(spell_data)
 	var spell_name = spell_data.get("name", "Unknown")
 	print("✓ Collected spell: ", spell_name)
+	
+	# Update quest progress for spell collection
+	update_quest_progress("collect_spell")
 	
 	# Auto-equip to first empty slot if available
 	var equipped = false
@@ -314,3 +336,19 @@ func get_global_spell_cast_position() -> Vector2:
 	if spell_cast_point:
 		return spell_cast_point.global_position
 	return global_position
+
+func has_collected_spell(spell_id: String) -> bool:
+	"""Check if player has collected a specific spell"""
+	for spell in collected_spells:
+		if spell.get("id", "") == spell_id:
+			return true
+	return false
+
+func update_quest_progress(quest_type: String):
+	"""Update quest progress based on action type"""
+	for quest in QuestManager.active_quests:
+		for i in range(quest.objectives.size()):
+			var objective = quest.objectives[i]
+			if objective.get("type", "") == quest_type and not objective.get("completed", false):
+				quest.complete_objective(i)
+				break

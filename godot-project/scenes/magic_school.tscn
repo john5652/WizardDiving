@@ -1,0 +1,129 @@
+[gd_scene load_steps=2 format=3 uid="uid://magic_school_001"]
+
+[ext_resource type="Script" path="res://scripts/ui/magic_school_ui.gd" id="1_school_ui"]
+
+[node name="MagicSchool" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_school_ui")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.15, 0.1, 0.2, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -400.0
+offset_top = -300.0
+offset_right = 400.0
+offset_bottom = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Header" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Title" type="Label" parent="VBoxContainer/Header"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 36
+text = "Magic School"
+horizontal_alignment = 1
+
+[node name="Spacer1" type="Control" parent="VBoxContainer/Header"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 10)
+
+[node name="ManaCrystalsLabel" type="Label" parent="VBoxContainer/Header"]
+layout_mode = 2
+text = "Mana Crystals: 100"
+horizontal_alignment = 1
+
+[node name="SatisfactionLabel" type="Label" parent="VBoxContainer/Header"]
+layout_mode = 2
+text = "Satisfaction: 50%"
+horizontal_alignment = 1
+
+[node name="SchoolLevelLabel" type="Label" parent="VBoxContainer/Header"]
+layout_mode = 2
+text = "School Level: 1"
+horizontal_alignment = 1
+
+[node name="Spacer2" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+
+[node name="Content" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ClassesSection" type="VBoxContainer" parent="VBoxContainer/Content"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ClassesTitle" type="Label" parent="VBoxContainer/Content/ClassesSection"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "Teach Classes"
+horizontal_alignment = 1
+
+[node name="Spacer3" type="Control" parent="VBoxContainer/Content/ClassesSection"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 10)
+
+[node name="ClassesContainer" type="VBoxContainer" parent="VBoxContainer/Content/ClassesSection"]
+layout_mode = 2
+
+[node name="Spacer4" type="Control" parent="VBoxContainer/Content"]
+layout_mode = 2
+custom_minimum_size = Vector2(20, 0)
+
+[node name="UpgradesSection" type="VBoxContainer" parent="VBoxContainer/Content"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="UpgradesTitle" type="Label" parent="VBoxContainer/Content/UpgradesSection"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 24
+text = "School Upgrades"
+horizontal_alignment = 1
+
+[node name="Spacer5" type="Control" parent="VBoxContainer/Content/UpgradesSection"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 10)
+
+[node name="UpgradesContainer" type="VBoxContainer" parent="VBoxContainer/Content/UpgradesSection"]
+layout_mode = 2
+
+[node name="Spacer6" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 20)
+
+[node name="Footer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Spacer7" type="Control" parent="VBoxContainer/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="ReturnButton" type="Button" parent="VBoxContainer/Footer"]
+layout_mode = 2
+text = "Return to Level"
+custom_minimum_size = Vector2(200, 50)
+
+[node name="Spacer8" type="Control" parent="VBoxContainer/Footer"]
+layout_mode = 2
+size_flags_horizontal = 3

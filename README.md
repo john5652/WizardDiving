@@ -75,22 +75,25 @@ wizard-diver-game/
 ## Development Phases
 
 1. **Phase 1:** Project Setup & Infrastructure ✅
-2. **Phase 2:** Core Game Systems ✅ (In Progress)
+2. **Phase 2:** Core Game Systems ✅
    - ✅ Player movement with smooth acceleration
    - ✅ Input system
    - ✅ Start menu
    - ✅ Pause menu
    - ✅ Health system
    - ✅ Camera system
-3. **Phase 3:** Gameplay Systems (In Progress)
-   - ✅ Spell system framework
-   - ✅ Spell collection & casting
-   - ✅ Enemy system
+3. **Phase 3:** Gameplay Systems ✅
+   - ✅ Spell system (collection, casting, inventory)
+   - ✅ Enemy system (AI, combat, health)
    - ✅ Door/unlock system
-   - ✅ Test level
-   - ⏳ School management UI
-   - ⏳ Quest system UI
-4. **Phase 4:** Content & Polish (Planned)
+   - ✅ Magic School Management UI
+   - ✅ Quest System UI
+   - ✅ Test level (fully playable)
+4. **Phase 4:** Content & Polish (In Progress)
+   - ⏳ Visual polish (replace placeholders)
+   - ⏳ Save/Load system
+   - ⏳ More content (levels, enemies, spells)
+   - ⏳ Audio system
 5. **Phase 5:** Build & Deployment (Planned)
 
 ## Requirements

@@ -9,7 +9,7 @@ extends CharacterBody2D
 @export var damage: int = 10
 @export var experience_reward: int = 10
 
-@onready var visual: ColorRect = $Visual
+@onready var visual: Sprite2D = $Visual
 @onready var collision: CollisionShape2D = $CollisionShape2D
 
 var current_health: int
@@ -23,6 +23,16 @@ func _ready():
 	current_health = max_health
 	find_player()
 	add_to_group("enemies")
+	
+	# Load goblin sprite texture
+	if visual:
+		var texture_path = "res://assets/sprites/characters/enemies/pixelantasy_goblin/PNG/goblin_2.png"
+		if ResourceLoader.exists(texture_path):
+			visual.texture = load(texture_path)
+			visual.scale = Vector2(0.4, 0.4)  # Scale down from 64-96px
+		else:
+			print("Warning: Goblin texture not found at: ", texture_path)
+	
 	print("Enemy initialized: ", enemy_name)
 
 var damage_timer: float = 0.0
@@ -79,11 +89,11 @@ func take_damage(amount: int, source: Node2D = null):
 	current_health = max(0, current_health)
 	health_changed.emit(current_health, max_health)
 	
-	# Visual feedback
+	# Visual feedback (flash red when hit)
 	if visual:
 		var tween = create_tween()
-		visual.color = Color(1, 0.3, 0.3, 1)
-		tween.tween_property(visual, "color", Color(0.4, 0.7, 0.3, 1), 0.2)
+		visual.modulate = Color(1, 0.3, 0.3, 1)
+		tween.tween_property(visual, "modulate", Color.WHITE, 0.2)
 	
 	if current_health <= 0:
 		die()
@@ -99,11 +109,23 @@ func die():
 	# TODO: Add death animation, drop items, etc.
 	print("Enemy died: ", enemy_name)
 	
+	# Update quest progress for enemy defeat
+	update_quest_progress("combat")
+	
 	# Give experience to player
 	if player and player.has_method("gain_experience"):
 		player.gain_experience(experience_reward)
 	
 	queue_free()
+
+func update_quest_progress(quest_type: String):
+	"""Update quest progress based on action type"""
+	for quest in QuestManager.active_quests:
+		for i in range(quest.objectives.size()):
+			var objective = quest.objectives[i]
+			if objective.get("type", "") == quest_type and not objective.get("completed", false):
+				quest.complete_objective(i)
+				break
 
 func apply_knockback(force: Vector2):
 	"""Apply knockback force (for when player pushes enemy)"""

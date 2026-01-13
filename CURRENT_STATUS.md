@@ -30,57 +30,63 @@ When you run the game (F5 in Godot), you should see:
 - ✅ **Health system** - Full health bar UI with damage/healing support
 - ✅ **Scene management** - Proper scene transitions between menu and game
 
-### Phase 3: Gameplay Systems ✅ (Core Features Complete)
+### Phase 3: Gameplay Systems ✅ (COMPLETE)
 - ✅ **Spell system** - 7 default spells defined (Fireball, Ice Shard, Lightning, Unlock Door, Reveal Hidden, Heal)
 - ✅ **Spell collection** - Collect spells by flying into pickups, auto-equips to empty slots
 - ✅ **Spell casting** - Cast spells with 1-4 keys or TAB+SPACE, fires in movement direction
 - ✅ **Spell inventory UI** - Shows all 4 spell slots with current selection highlighted
 - ✅ **Enemy system** - Basic AI that chases player, deals contact damage, has health bar
 - ✅ **Combat system** - Spells damage enemies, enemies damage player on contact
-- ✅ **Door/unlock system** - Locked doors require specific spells to unlock
+- ✅ **Door/unlock system** - Locked doors require specific spells to unlock (press E near door)
 - ✅ **Test level** - Fully playable level with spells, enemies, doors, and walls
-- ⏳ **School management** - Backend system complete, UI scene needed
-- ⏳ **Quest system** - Backend system complete, UI integration needed
+- ✅ **Magic School Management** - Complete UI with class teaching, unlocking, and upgrades
+- ✅ **Quest System** - Complete UI with quest log, progress tracking, and notifications
 
 ## What's Missing (Next Steps)
 
 ### Immediate Next Steps (Priority Order)
 
-#### 1. **Visual Polish** (2-3 hours)
+#### 1. **Visual Polish** (2-3 hours) 🔴 HIGHEST PRIORITY
 - [ ] Replace placeholder player visual (blue square) with wizard sprite
 - [ ] Replace placeholder enemy visual (green square) with goblin sprite
 - [ ] Improve spell pickup visuals (currently colored rectangles)
 - [ ] Add spell casting visual effects (particles, trails)
 - [ ] Add movement trail/particles for player
 - [ ] Improve background visuals (currently solid colors)
+- [ ] Add door unlock animation/effect
 
-#### 2. **Magic School UI** (3-4 hours)
-- [ ] Create school scene/UI
-- [ ] Implement class teaching interface
-- [ ] Add resource display (mana crystals counter)
-- [ ] Create upgrade menu
-- [ ] Connect to existing SchoolManager backend
+#### 2. **Save/Load System** (2-3 hours) 🔴 HIGH PRIORITY
+- [ ] Save player state (health, position, collected spells)
+- [ ] Save school state (mana crystals, unlocked classes, upgrades)
+- [ ] Save quest progress
+- [ ] Save/load menu in pause screen
+- [ ] Auto-save functionality
 
-#### 3. **Quest System UI** (2-3 hours)
-- [ ] Create quest log UI
-- [ ] Display active quests
-- [ ] Show quest objectives and progress
-- [ ] Quest completion notifications
-- [ ] Connect to existing QuestManager backend
+#### 3. **Death/Respawn System** (1-2 hours) 🟡 MEDIUM PRIORITY
+- [ ] Death screen/UI
+- [ ] Respawn at level start or checkpoint
+- [ ] Option to retry or return to menu
+- [ ] Death animation/effect
 
-#### 4. **Additional Content** (Ongoing)
-- [ ] Create more levels/rooms
-- [ ] Add more enemy types
-- [ ] Create more spells
-- [ ] Add NPCs with dialogue
-- [ ] Implement save/load system
+#### 4. **More Content** (Ongoing) 🟡 MEDIUM PRIORITY
+- [ ] Create 2-3 more levels/rooms
+- [ ] Add 1-2 more enemy types (different behaviors)
+- [ ] Add 3-5 more spells
+- [ ] Create level transition system
+- [ ] Add NPCs with dialogue (future)
 
-#### 5. **Polish & Balance** (Ongoing)
-- [ ] Add sound effects
-- [ ] Add background music
+#### 5. **Audio System** (2-3 hours) 🟡 MEDIUM PRIORITY
+- [ ] Sound effects (spell casting, collection, combat, UI)
+- [ ] Background music (ambient, combat themes)
+- [ ] Audio settings in pause menu
+- [ ] Volume controls
+
+#### 6. **Polish & Balance** (Ongoing) 🟢 LOW PRIORITY
 - [ ] Improve UI/UX
 - [ ] Balance combat difficulty
 - [ ] Add animations
+- [ ] Spell upgrade system
+- [ ] Boss battles
 
 ## Development Roadmap
 
@@ -132,13 +138,18 @@ To verify everything works:
 - [x] Health bar displays correctly
 - [x] Can collect spells (fly into glowing orbs)
 - [x] Spell inventory UI updates when collecting spells
-- [x] Can cast spells with 1-4 keys
+- [x] Can cast spells with 1-4 keys or SPACE
 - [x] TAB switches between equipped spells
 - [x] ESC opens/closes pause menu
-- [x] Pause menu buttons work (Resume, Main Menu, Quit)
+- [x] Pause menu buttons work (Resume, Quest Log, Magic School, Main Menu, Quit)
+- [x] Quest Log displays active quests and progress
+- [x] Magic School UI works (teach classes, unlock classes, buy upgrades)
 - [x] Enemy chases player and deals damage
 - [x] Spells damage enemies
-- [x] Can unlock doors with "Unlock Door" spell
+- [x] Can unlock doors with "Unlock Door" spell (press E near door)
+- [x] Door pulses when player is nearby
+- [x] Quest progress tracks spell collection and enemy defeats
+- [x] Quest completion gives rewards
 - [x] No console errors
 - [x] Game runs smoothly
 
@@ -153,22 +164,29 @@ To verify everything works:
 
 ## Recommended Next Action
 
-**Focus on visual polish:**
-1. Replace placeholder sprites with actual wizard/enemy art
-2. Improve spell visual effects
-3. Add particle effects for movement and casting
-4. This will make the game feel more complete and polished
+**Core gameplay loop is COMPLETE!** ✅
+
+**Next priorities:**
+1. **Visual Polish** - Replace all placeholder sprites (highest impact)
+2. **Save/Load System** - Essential for playability
+3. **Death/Respawn** - Complete the combat loop
+4. **More Content** - Add levels, enemies, spells
+
+See `GAME_MECHANICS.md` for detailed recommendations and priority matrix.
 
 ## Code Locations
 
 - **Player Script:** `godot-project/scripts/player/player.gd`
 - **Start Menu:** `godot-project/scenes/start_menu.tscn` & `scripts/ui/start_menu.gd`
 - **Pause Menu:** `godot-project/scenes/pause_menu.tscn` & `scripts/ui/pause_menu.gd`
+- **Quest Log:** `godot-project/scenes/quest_log.tscn` & `scripts/ui/quest_log_ui.gd`
+- **Magic School:** `godot-project/scenes/magic_school.tscn` & `scripts/ui/magic_school_ui.gd`
 - **Test Level:** `godot-project/scenes/test_level.tscn`
 - **Spell System:** `godot-project/scripts/spells/`
 - **Enemy System:** `godot-project/scripts/enemies/`
 - **School System:** `godot-project/scripts/school/`
 - **Quest System:** `godot-project/scripts/quests/`
+- **Door System:** `godot-project/scripts/exploration/door.gd`
 - **Singletons:** `godot-project/scripts/singletons/` (GameManager, InputManager, SpellManager, etc.)
 
 ## Need Help?

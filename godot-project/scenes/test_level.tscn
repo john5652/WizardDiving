@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://test_level_001"]
+[gd_scene load_steps=11 format=3 uid="uid://test_level_001"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_player"]
 [ext_resource type="Script" path="res://scripts/spells/spell_pickup.gd" id="2_spell_pickup"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/ui/spell_inventory_ui.gd" id="6_spell_inventory"]
 [ext_resource type="Script" path="res://scripts/enemies/enemy_health_bar.gd" id="7_enemy_health"]
 [ext_resource type="PackedScene" uid="uid://pause_menu_001" path="res://scenes/pause_menu.tscn" id="8_pause_menu"]
+[ext_resource type="PackedScene" uid="uid://quest_log_001" path="res://scenes/quest_log.tscn" id="9_quest_log"]
 
 [sub_resource type="GDScript" id="enemy_health_script"]
 script/source = "extends ProgressBar
@@ -54,19 +55,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 color = Color(0.1, 0.1, 0.15, 1)
-
-[node name="BackgroundPattern" type="ColorRect" parent="Room/Background"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -640.0
-offset_top = -360.0
-offset_right = 640.0
-offset_bottom = 360.0
-color = Color(0.15, 0.15, 0.2, 1)
 
 [node name="Walls" type="Node2D" parent="Room"]
 
@@ -126,25 +114,7 @@ color = Color(0.3, 0.25, 0.2, 1)
 position = Vector2(200, 360)
 script = ExtResource("1_player")
 
-[node name="Visual" type="ColorRect" parent="Room/Player"]
-offset_left = -16.0
-offset_top = -16.0
-offset_right = 16.0
-offset_bottom = 16.0
-color = Color(0.2, 0.6, 1, 1)
-
-[node name="PlayerGlow" type="ColorRect" parent="Room/Player/Visual"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-offset_left = -2.0
-offset_top = -2.0
-offset_right = 2.0
-offset_bottom = 2.0
-color = Color(0.4, 0.8, 1, 0.5)
+[node name="Visual" type="Sprite2D" parent="Room/Player"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Player"]
 shape = SubResource("player_shape")
@@ -325,12 +295,7 @@ speed = 80.0
 damage = 5
 experience_reward = 15
 
-[node name="Visual" type="ColorRect" parent="Room/Enemies/Goblin"]
-offset_left = -12.0
-offset_top = -12.0
-offset_right = 12.0
-offset_bottom = 12.0
-color = Color(0.4, 0.7, 0.3, 1)
+[node name="Visual" type="Sprite2D" parent="Room/Enemies/Goblin"]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Enemies/Goblin"]
 shape = SubResource("enemy_shape")
@@ -473,6 +438,9 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="PauseMenu" parent="UI" instance=ExtResource("8_pause_menu")]
+
+[node name="QuestLog" parent="UI" instance=ExtResource("9_quest_log")]
+visible = false
 
 [connection signal="health_changed" from="Room/Player" to="UI/HealthBar" method="_on_player_health_changed"]
 [connection signal="spell_collected" from="Room/Player" to="UI/SpellInventory" method="_on_spell_collected"]

@@ -34,6 +34,10 @@ func check_completion():
 	
 	is_completed = true
 	quest_completed.emit(self)
+	
+	# Notify QuestManager to complete the quest
+	if QuestManager and is_active:
+		QuestManager.complete_quest(self)
 
 func get_progress() -> float:
 	"""Get quest completion progress (0.0 to 1.0)"""
