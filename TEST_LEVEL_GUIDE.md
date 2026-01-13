@@ -40,8 +40,11 @@ When you run the game (F5), you'll experience a **fully playable test level** wi
 ## Controls
 
 - **WASD** or **Arrow Keys** - Move/Fly
-- **Space** - Interact (collect spells, open doors)
-- **1-4** - Cast equipped spells (aims toward mouse cursor)
+- **TAB** - Switch between equipped spells
+- **1-4** - Cast spell from that slot (also switches to that slot)
+- **SPACE** - Cast currently selected spell (fires in movement direction)
+- **E** - Interact with doors/objects
+- **ESC** - Open/Close pause menu
 
 ## Gameplay Flow
 
@@ -49,12 +52,13 @@ When you run the game (F5), you'll experience a **fully playable test level** wi
 2. **Collect Spells** - Fly to the glowing orbs to collect them
    - They automatically equip to empty slots
    - Watch the spell inventory (top-right) update
-3. **Fight the Goblin** - Use spells (1-4 keys) to damage it
-   - Spells fire toward your mouse cursor
-   - The goblin will chase you
+3. **Fight the Goblin** - Use spells (1-4 keys or SPACE) to damage it
+   - Spells fire in your movement direction (move toward the goblin while casting)
+   - The goblin will chase you and deal damage on contact
+   - Watch the goblin's health bar above it
 4. **Unlock the Door** - Collect the "Unlock Door" spell first
    - Fly to the red door on the right
-   - Press **Space** to interact
+   - Press **E** to interact (not Space!)
    - Door will unlock and turn gray
 5. **Explore** - The level is fully interactive!
 
@@ -70,10 +74,12 @@ When you run the game (F5), you'll experience a **fully playable test level** wi
 
 ## Tips
 
-- **Spell Casting**: Move your mouse cursor to aim spells
-- **Combat**: Keep moving to avoid the goblin
-- **Collection**: Spells auto-equip to the first available slot
-- **Interactions**: Get close to objects and press Space
+- **Spell Casting**: Spells fire in your movement direction - move toward enemies while casting
+- **Spell Switching**: Use TAB to cycle through your equipped spells
+- **Combat**: Keep moving to avoid the goblin's contact damage
+- **Collection**: Spells auto-equip to the first available slot (watch the top-right UI)
+- **Interactions**: Get close to doors and press E (not Space!)
+- **Pause**: Press ESC anytime to pause and access menu options
 
 ## Next Steps After Testing
 

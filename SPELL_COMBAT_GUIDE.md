@@ -8,7 +8,9 @@
 - Watch the top-right UI to see which spells you have
 
 ### Step 2: Cast Spells
-- **Press 1, 2, 3, or 4** to cast the spell in that slot
+- **Press 1, 2, 3, or 4** to cast the spell in that slot (also switches to that slot)
+- **Press SPACE** to cast the currently selected spell
+- **Press TAB** to switch between equipped spells
 - **Spells fire in your movement direction** (where you're moving)
 - If you're not moving, spells fire in the direction you're facing
 - There's a small cooldown between casts (0.3 seconds)
@@ -54,7 +56,10 @@
 ## Controls Summary
 
 - **WASD/Arrows** - Move (spells fire in this direction)
-- **1-4** - Cast spell from that slot
-- **Space** - Interact with doors/objects
+- **TAB** - Switch between equipped spells
+- **1-4** - Cast spell from that slot (also switches to that slot)
+- **SPACE** - Cast currently selected spell
+- **E** - Interact with doors/objects
+- **ESC** - Pause menu
 
 Enjoy the combat! 🎯

@@ -2,6 +2,17 @@
 
 A 2D wizard exploration game inspired by Dave the Diver, where players fly through magical environments (cities, castles, dungeons) collecting spells, managing a magic school, and progressing through an AI-generated story.
 
+## Vision
+
+**Wizard Diver** aims to combine the satisfying exploration and management loop of Dave the Diver with the spell-casting and progression systems of classic action-adventure games. The core vision is to create a game where:
+
+- **Exploration feels magical**: Players glide smoothly through diverse magical biomes, discovering secrets and collecting spells that feel rewarding to find
+- **Combat is strategic**: With limited spell slots, players must choose their loadout carefully and use spells creatively to overcome challenges
+- **Progression is meaningful**: Managing the magic school provides a satisfying meta-game that enhances exploration capabilities and unlocks new content
+- **Story emerges naturally**: AI-generated quests and NPCs create a dynamic narrative that makes each playthrough feel unique
+
+The game should feel polished and complete, with smooth controls, satisfying feedback, and enough content for a 5-10 hour playthrough. While inspired by Dave the Diver's structure, it should have its own identity as a magical exploration game with deep spell-casting mechanics.
+
 ## Project Overview
 
 - **Engine:** Godot 4.x
@@ -64,10 +75,23 @@ wizard-diver-game/
 ## Development Phases
 
 1. **Phase 1:** Project Setup & Infrastructure ✅
-2. **Phase 2:** Core Game Systems (Weeks 1-4)
-3. **Phase 3:** Gameplay Systems (Weeks 5-8)
-4. **Phase 4:** Content & Polish (Weeks 9-12)
-5. **Phase 5:** Build & Deployment
+2. **Phase 2:** Core Game Systems ✅ (In Progress)
+   - ✅ Player movement with smooth acceleration
+   - ✅ Input system
+   - ✅ Start menu
+   - ✅ Pause menu
+   - ✅ Health system
+   - ✅ Camera system
+3. **Phase 3:** Gameplay Systems (In Progress)
+   - ✅ Spell system framework
+   - ✅ Spell collection & casting
+   - ✅ Enemy system
+   - ✅ Door/unlock system
+   - ✅ Test level
+   - ⏳ School management UI
+   - ⏳ Quest system UI
+4. **Phase 4:** Content & Polish (Planned)
+5. **Phase 5:** Build & Deployment (Planned)
 
 ## Requirements
 

@@ -1,23 +1,20 @@
 # Quick Fix Guide - Common Issues
 
-## Issue 1: "Nothing happens when I pick up a spell and hit space bar"
-
-**Solution:** Space bar is NOT for casting spells! 
-
-- **Space bar** = Interact with doors/objects only
-- **Number keys 1-4** = Cast spells
+## Issue 1: "Spells not casting"
 
 **How to cast spells:**
 1. Collect a spell (fly into the glowing orb)
 2. Check the top-right UI - it should show the spell name (e.g., "Fireball")
-3. Press **1, 2, 3, or 4** (the number key, not space!)
-4. The spell fires in the direction you're moving
+3. Press **1, 2, 3, or 4** to cast the spell in that slot, OR
+4. Press **TAB** to switch spells, then **SPACE** to cast the selected spell
+5. The spell fires in the direction you're moving
 
 **If spells still don't work:**
 - Make sure you've actually collected a spell (watch the console for "✓ Collected spell")
 - Check the top-right UI shows the spell name
-- Press the NUMBER KEYS (1-4), not space bar
+- Try pressing the NUMBER KEYS (1-4) or SPACE after selecting with TAB
 - Move while casting (spells fire in movement direction)
+- Make sure the game isn't paused (press ESC to check)
 
 ## Issue 2: "Goblin blocks my movement"
 
@@ -29,8 +26,11 @@
 ## Controls Reminder
 
 - **WASD/Arrows** - Move
-- **1, 2, 3, 4** - Cast spells (NOT space!)
-- **Space** - Interact with doors only
+- **TAB** - Switch between equipped spells
+- **1, 2, 3, 4** - Cast spell from that slot (also switches to that slot)
+- **SPACE** - Cast currently selected spell
+- **E** - Interact with doors/objects
+- **ESC** - Pause menu
 
 ## Testing Checklist
 

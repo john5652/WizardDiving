@@ -49,7 +49,9 @@ open -a Godot godot-project/project.godot
 ### 5. Run the Game
 
 - In Godot, press `F5` or click the "Play" button
-- You should see a blue square (player) that you can move with WASD/Arrow keys
+- You should see the **Start Menu** with "Start Game" and "Quit" buttons
+- Click "Start Game" to load the test level
+- In the test level, you'll see a blue glowing square (player) that you can move with WASD/Arrow keys
 
 ## Daily Workflow
 
@@ -92,8 +94,10 @@ open -a Godot godot-project/project.godot
 ## Key Controls
 
 - **Movement:** WASD or Arrow Keys
-- **Interact:** Space
-- **Cast Spell 1-4:** Number keys 1-4
+- **Switch Spells:** TAB
+- **Cast Spell:** Number keys 1-4 (casts and switches to that slot) or SPACE (casts currently selected)
+- **Interact:** E (for doors/objects)
+- **Pause Menu:** ESC
 
 ## Next Steps
 

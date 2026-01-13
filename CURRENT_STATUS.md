@@ -3,9 +3,15 @@
 ## What You Should See Now
 
 When you run the game (F5 in Godot), you should see:
-- ✅ A **blue square** (the player/wizard) in the center of the screen
-- ✅ A **health bar** in the top-left corner showing "Health: 100/100"
-- ✅ You can **move the player** with **WASD** or **Arrow Keys**
+- ✅ **Start Menu** with "Start Game" and "Quit" buttons
+- ✅ After clicking "Start Game", a **test level** loads with:
+  - A **blue glowing square** (the player/wizard) that you can move smoothly
+  - A **health bar** in the top-left corner showing "Health: 100/100"
+  - **Spell inventory UI** in the top-right showing equipped spells
+  - **Spell pickups** (glowing orbs) to collect
+  - A **goblin enemy** that chases you
+  - A **locked door** that requires the "Unlock Door" spell
+  - **Walls** that contain the level
 
 ## What's Working
 
@@ -16,53 +22,65 @@ When you run the game (F5 in Godot), you should see:
 - ✅ Godot 4.5 project initialized
 
 ### Phase 2: Core Systems ✅
-- ✅ Player movement (flying mechanics with smooth acceleration)
-- ✅ Input system (WASD/Arrow keys, Space for interact, 1-4 for spells)
-- ✅ Camera follows player
-- ✅ Health system with UI
-- ✅ Basic scene structure
+- ✅ **Player movement** - Smooth flying mechanics with exponential acceleration/deceleration
+- ✅ **Input system** - WASD/Arrow keys for movement, Space for interact, 1-4 for spells, TAB to switch spells
+- ✅ **Start menu** - Professional menu with Start Game and Quit options
+- ✅ **Pause menu** - Press ESC to pause, with Resume, Main Menu, and Quit options
+- ✅ **Camera system** - Smoothly follows player
+- ✅ **Health system** - Full health bar UI with damage/healing support
+- ✅ **Scene management** - Proper scene transitions between menu and game
 
-### Phase 3: Gameplay Systems (Partially Implemented)
-- ✅ Spell system framework (7 default spells defined)
-- ✅ Spell collection system
-- ✅ Door/unlock system
-- ✅ Enemy system framework
-- ✅ School management system
-- ✅ Quest system framework
+### Phase 3: Gameplay Systems ✅ (Core Features Complete)
+- ✅ **Spell system** - 7 default spells defined (Fireball, Ice Shard, Lightning, Unlock Door, Reveal Hidden, Heal)
+- ✅ **Spell collection** - Collect spells by flying into pickups, auto-equips to empty slots
+- ✅ **Spell casting** - Cast spells with 1-4 keys or TAB+SPACE, fires in movement direction
+- ✅ **Spell inventory UI** - Shows all 4 spell slots with current selection highlighted
+- ✅ **Enemy system** - Basic AI that chases player, deals contact damage, has health bar
+- ✅ **Combat system** - Spells damage enemies, enemies damage player on contact
+- ✅ **Door/unlock system** - Locked doors require specific spells to unlock
+- ✅ **Test level** - Fully playable level with spells, enemies, doors, and walls
+- ⏳ **School management** - Backend system complete, UI scene needed
+- ⏳ **Quest system** - Backend system complete, UI integration needed
 
 ## What's Missing (Next Steps)
 
 ### Immediate Next Steps (Priority Order)
 
-#### 1. **Add Visual Feedback** (Quick Win - 30 min)
-- [ ] Add a simple background (solid color or gradient)
-- [ ] Make player visual more distinct (maybe add a simple outline or glow)
-- [ ] Add movement particles/trail effect
-- [ ] Test that camera follows player smoothly
+#### 1. **Visual Polish** (2-3 hours)
+- [ ] Replace placeholder player visual (blue square) with wizard sprite
+- [ ] Replace placeholder enemy visual (green square) with goblin sprite
+- [ ] Improve spell pickup visuals (currently colored rectangles)
+- [ ] Add spell casting visual effects (particles, trails)
+- [ ] Add movement trail/particles for player
+- [ ] Improve background visuals (currently solid colors)
 
-#### 2. **Create First Test Level** (1-2 hours)
-- [ ] Create a simple room/level scene
-- [ ] Add walls/boundaries (so player doesn't fly off screen)
-- [ ] Add a spell pickup to test collection
-- [ ] Add a locked door to test unlocking mechanic
-
-#### 3. **Implement Spell Visuals** (2-3 hours)
-- [ ] Create spell pickup visual (glowing orb or similar)
-- [ ] Add spell casting visual effects
-- [ ] Create spell inventory UI
-- [ ] Show equipped spells in UI
-
-#### 4. **Add Basic Enemy** (2-3 hours)
-- [ ] Create enemy scene with visual
-- [ ] Implement basic AI (move toward player)
-- [ ] Add collision detection for damage
-- [ ] Test combat system
-
-#### 5. **Create Magic School Scene** (3-4 hours)
-- [ ] Design school UI layout
+#### 2. **Magic School UI** (3-4 hours)
+- [ ] Create school scene/UI
 - [ ] Implement class teaching interface
-- [ ] Add resource display (mana crystals)
+- [ ] Add resource display (mana crystals counter)
 - [ ] Create upgrade menu
+- [ ] Connect to existing SchoolManager backend
+
+#### 3. **Quest System UI** (2-3 hours)
+- [ ] Create quest log UI
+- [ ] Display active quests
+- [ ] Show quest objectives and progress
+- [ ] Quest completion notifications
+- [ ] Connect to existing QuestManager backend
+
+#### 4. **Additional Content** (Ongoing)
+- [ ] Create more levels/rooms
+- [ ] Add more enemy types
+- [ ] Create more spells
+- [ ] Add NPCs with dialogue
+- [ ] Implement save/load system
+
+#### 5. **Polish & Balance** (Ongoing)
+- [ ] Add sound effects
+- [ ] Add background music
+- [ ] Improve UI/UX
+- [ ] Balance combat difficulty
+- [ ] Add animations
 
 ## Development Roadmap
 
@@ -107,30 +125,51 @@ When you run the game (F5 in Godot), you should see:
 ## Quick Test Checklist
 
 To verify everything works:
-- [ ] Player moves with WASD
-- [ ] Camera follows player
-- [ ] Health bar displays correctly
-- [ ] No console errors
-- [ ] Game runs at 60 FPS
+- [x] Start menu appears on launch
+- [x] "Start Game" button loads test level
+- [x] Player moves smoothly with WASD/Arrow keys
+- [x] Camera follows player
+- [x] Health bar displays correctly
+- [x] Can collect spells (fly into glowing orbs)
+- [x] Spell inventory UI updates when collecting spells
+- [x] Can cast spells with 1-4 keys
+- [x] TAB switches between equipped spells
+- [x] ESC opens/closes pause menu
+- [x] Pause menu buttons work (Resume, Main Menu, Quit)
+- [x] Enemy chases player and deals damage
+- [x] Spells damage enemies
+- [x] Can unlock doors with "Unlock Door" spell
+- [x] No console errors
+- [x] Game runs smoothly
+
+## Controls Reference
+
+- **WASD / Arrow Keys** - Move/Fly
+- **TAB** - Switch between equipped spells
+- **1, 2, 3, 4** - Cast spell from that slot (also switches to that slot)
+- **SPACE** - Cast currently selected spell
+- **E** - Interact with doors/objects
+- **ESC** - Open/Close pause menu
 
 ## Recommended Next Action
 
-**Start with creating a simple test level:**
-1. Create a new scene: `scenes/test_level.tscn`
-2. Add a background ColorRect
-3. Add walls (StaticBody2D with collision)
-4. Add a spell pickup (Area2D with spell_pickup script)
-5. Change main scene to test_level
-
-This will give you something to interact with and test the systems!
+**Focus on visual polish:**
+1. Replace placeholder sprites with actual wizard/enemy art
+2. Improve spell visual effects
+3. Add particle effects for movement and casting
+4. This will make the game feel more complete and polished
 
 ## Code Locations
 
 - **Player Script:** `godot-project/scripts/player/player.gd`
-- **Main Scene:** `godot-project/scenes/main.tscn`
+- **Start Menu:** `godot-project/scenes/start_menu.tscn` & `scripts/ui/start_menu.gd`
+- **Pause Menu:** `godot-project/scenes/pause_menu.tscn` & `scripts/ui/pause_menu.gd`
+- **Test Level:** `godot-project/scenes/test_level.tscn`
 - **Spell System:** `godot-project/scripts/spells/`
 - **Enemy System:** `godot-project/scripts/enemies/`
 - **School System:** `godot-project/scripts/school/`
+- **Quest System:** `godot-project/scripts/quests/`
+- **Singletons:** `godot-project/scripts/singletons/` (GameManager, InputManager, SpellManager, etc.)
 
 ## Need Help?
 
