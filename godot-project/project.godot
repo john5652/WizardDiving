@@ -23,6 +23,7 @@ InputManager="*res://scripts/singletons/input_manager.gd"
 SpellManager="*res://scripts/spells/spell_manager.gd"
 SchoolManager="*res://scripts/school/school_manager.gd"
 QuestManager="*res://scripts/quests/quest_manager.gd"
+SaveManager="*res://scripts/singletons/save_manager.gd"
 
 [display]
 

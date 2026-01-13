@@ -20,6 +20,12 @@ func _ready():
 	# Add to interactable group
 	add_to_group("interactable")
 	
+	# Check if this door should be unlocked (from save data)
+	if SaveManager and SaveManager.is_door_unlocked(get_room_id(), door_id):
+		print("Door ", door_id, " was unlocked, restoring state...")
+		is_locked = false
+		update_door_state()
+	
 	if interaction_area:
 		interaction_area.body_entered.connect(_on_body_entered)
 		interaction_area.body_exited.connect(_on_body_exited)
@@ -32,6 +38,24 @@ func _ready():
 	
 	update_door_state()
 	print("Door initialized: ", door_id, " (Locked: ", is_locked, ", Required spell: ", required_spell, ")")
+
+func get_room_id() -> String:
+	"""Get the room ID this door belongs to"""
+	var room = get_tree().get_first_node_in_group("room")
+	if not room:
+		var current = get_parent()
+		while current:
+			if current.name == "Room":
+				room = current
+				break
+			current = current.get_parent()
+	
+	if room:
+		var room_id = room.get("room_id")
+		if room_id is String and room_id != "":
+			return room_id
+	
+	return "unknown_room"
 
 func _process(_delta):
 	# Check if player is nearby
@@ -81,14 +105,16 @@ func interact(player: Node):
 		return
 	
 	if is_locked:
-		# Check if player has required spell via SpellManager
-		var has_spell = SpellManager.has_spell(required_spell)
-		print("Player has spell '", required_spell, "': ", has_spell)
+		# Check player's collected spells directly (primary check)
+		var has_spell = false
+		if player and player.has_method("has_collected_spell"):
+			has_spell = player.has_collected_spell(required_spell)
+			print("Player has spell '", required_spell, "': ", has_spell, " (from player.collected_spells)")
 		
-		# Also check player's collected spells directly
-		if player.has_method("has_collected_spell"):
-			var player_has = player.has_collected_spell(required_spell)
-			print("Player collected spells check: ", player_has)
+		# Fallback: also check SpellManager
+		if not has_spell:
+			has_spell = SpellManager.has_spell(required_spell)
+			print("Player has spell '", required_spell, "': ", has_spell, " (from SpellManager)")
 		
 		if has_spell:
 			print("✓ Unlocking door!")
@@ -97,6 +123,8 @@ func interact(player: Node):
 		else:
 			print("✗ Player does NOT have required spell!")
 			show_message("This door requires the spell: " + required_spell + "\nCollect it first!")
+			if player:
+				print("Player collected spells: ", player.collected_spells)
 			print("Available spells in SpellManager: ", SpellManager.player_spells)
 	else:
 		print("Door is unlocked, opening...")
@@ -105,6 +133,11 @@ func interact(player: Node):
 func unlock_door():
 	"""Unlock the door using a spell"""
 	is_locked = false
+	
+	# Register door as unlocked in save system
+	if SaveManager:
+		SaveManager.register_door_unlocked(get_room_id(), door_id)
+	
 	print("Door unlocked: ", door_id)
 	update_door_state()
 	# TODO: Add unlock animation/effect

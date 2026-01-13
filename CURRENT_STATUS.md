@@ -4,14 +4,20 @@
 
 When you run the game (F5 in Godot), you should see:
 - ✅ **Start Menu** with "Start Game" and "Quit" buttons
-- ✅ After clicking "Start Game", a **test level** loads with:
-  - A **blue glowing square** (the player/wizard) that you can move smoothly
-  - A **health bar** in the top-left corner showing "Health: 100/100"
-  - **Spell inventory UI** in the top-right showing equipped spells
-  - **Spell pickups** (glowing orbs) to collect
-  - A **goblin enemy** that chases you
-  - A **locked door** that requires the "Unlock Door" spell
-  - **Walls** that contain the level
+- ✅ After clicking "Start Game", a **Level Hub** appears where you can:
+  - Select which biome to explore (Dark Forest, Dungeon, Village)
+  - Return to School Hub
+- ✅ **School Hub** - A physical school scene where you can:
+  - Walk around as your wizard character
+  - Access "Go Explore" to return to level selection
+  - Open "School Management" UI
+  - View "Quest Log"
+- ✅ **Exploration Biomes** - Multiple areas to explore:
+  - **Dark Forest** - Mystical forest with forest-themed enemies and spells
+  - **Dungeon** - Ancient dungeon with darker atmosphere
+  - **Test Level** - Original test chamber (now with better background)
+  - Each biome has unique backgrounds, enemies, and spell pickups
+  - "Return to School" button in bottom-right of each exploration area
 
 ## What's Working
 
@@ -25,10 +31,18 @@ When you run the game (F5 in Godot), you should see:
 - ✅ **Player movement** - Smooth flying mechanics with exponential acceleration/deceleration
 - ✅ **Input system** - WASD/Arrow keys for movement, Space for interact, 1-4 for spells, TAB to switch spells
 - ✅ **Start menu** - Professional menu with Start Game and Quit options
-- ✅ **Pause menu** - Press ESC to pause, with Resume, Main Menu, and Quit options
+- ✅ **Pause menu** - Press ESC to pause, with Resume, Quest Log, Magic School, Save/Load, Main Menu, and Quit options
 - ✅ **Camera system** - Smoothly follows player
 - ✅ **Health system** - Full health bar UI with damage/healing support
 - ✅ **Scene management** - Proper scene transitions between menu and game
+- ✅ **Save/Load System** - Complete save/load functionality with:
+  - Player state (health, position, collected spells, equipped spells)
+  - School state (mana crystals, unlocked classes, upgrades)
+  - Quest progress (active, completed, available quests)
+  - Enemy state persistence (defeated enemies stay dead)
+  - Pickup state persistence (collected items stay collected)
+  - Door state persistence (unlocked doors stay unlocked)
+  - Auto-save when returning to school
 
 ### Phase 3: Gameplay Systems ✅ (COMPLETE)
 - ✅ **Spell system** - 7 default spells defined (Fireball, Ice Shard, Lightning, Unlock Door, Reveal Hidden, Heal)
@@ -42,25 +56,39 @@ When you run the game (F5 in Godot), you should see:
 - ✅ **Magic School Management** - Complete UI with class teaching, unlocking, and upgrades
 - ✅ **Quest System** - Complete UI with quest log, progress tracking, and notifications
 
+### Phase 4: Visual Polish ✅ (PARTIALLY COMPLETE)
+- ✅ **Player sprite** - Wizard sprite with walk/run/idle animations (AnimatedSprite2D)
+- ✅ **Enemy sprite** - Goblin sprite with walk/idle animations (AnimatedSprite2D)
+- ✅ **Background** - Fantasy background texture loads and displays correctly
+- ⏳ Spell pickup visuals (still using colored rectangles)
+- ⏳ Spell casting visual effects (particles, trails)
+- ⏳ Movement trail/particles for player
+- ⏳ Door unlock animation/effect
+
 ## What's Missing (Next Steps)
 
 ### Immediate Next Steps (Priority Order)
 
-#### 1. **Visual Polish** (2-3 hours) 🔴 HIGHEST PRIORITY
-- [ ] Replace placeholder player visual (blue square) with wizard sprite
-- [ ] Replace placeholder enemy visual (green square) with goblin sprite
+#### 1. **Visual Polish** (PARTIALLY COMPLETE) 🔴 HIGH PRIORITY
+- [x] Replace placeholder player visual (blue square) with wizard sprite ✅
+- [x] Replace placeholder enemy visual (green square) with goblin sprite ✅
+- [x] Improve background visuals (now using fantasy background texture) ✅
+- [x] Add animations (wizard and goblin have walk/run/idle animations) ✅
 - [ ] Improve spell pickup visuals (currently colored rectangles)
 - [ ] Add spell casting visual effects (particles, trails)
 - [ ] Add movement trail/particles for player
-- [ ] Improve background visuals (currently solid colors)
 - [ ] Add door unlock animation/effect
 
-#### 2. **Save/Load System** (2-3 hours) 🔴 HIGH PRIORITY
-- [ ] Save player state (health, position, collected spells)
-- [ ] Save school state (mana crystals, unlocked classes, upgrades)
-- [ ] Save quest progress
-- [ ] Save/load menu in pause screen
-- [ ] Auto-save functionality
+#### 2. **Save/Load System** (2-3 hours) ✅ COMPLETE
+- [x] Save player state (health, position, collected spells, equipped spells) ✅
+- [x] Save school state (mana crystals, unlocked classes, upgrades) ✅
+- [x] Save quest progress (active, completed, available quests) ✅
+- [x] Save enemy state (defeated enemies tracked by room and enemy_id) ✅
+- [x] Save pickup state (collected items tracked by room and pickup_id) ✅
+- [x] Save door state (unlocked doors tracked by room and door_id) ✅
+- [x] Save/load menu in pause screen ✅
+- [x] Auto-save functionality (when returning to school) ✅
+- [x] Spell synchronization (SpellManager synced with player spells on load) ✅
 
 #### 3. **Death/Respawn System** (1-2 hours) 🟡 MEDIUM PRIORITY
 - [ ] Death screen/UI
@@ -68,11 +96,20 @@ When you run the game (F5 in Godot), you should see:
 - [ ] Option to retry or return to menu
 - [ ] Death animation/effect
 
-#### 4. **More Content** (Ongoing) 🟡 MEDIUM PRIORITY
-- [ ] Create 2-3 more levels/rooms
-- [ ] Add 1-2 more enemy types (different behaviors)
+#### 4. **Level Transition System** ✅ COMPLETE
+- [x] Level Hub scene for biome selection ✅
+- [x] School Hub scene (physical school, not just menu) ✅
+- [x] Dark Forest biome scene with forest background ✅
+- [x] Dungeon biome scene with dungeon background ✅
+- [x] Return to School button in exploration areas ✅
+- [x] Scene transition system working ✅
+- [ ] Village biome scene (can be added later)
+- [ ] More biome variety
+
+#### 5. **More Content** (Ongoing) 🟡 MEDIUM PRIORITY
+- [x] Create 2-3 more levels/rooms ✅ (Dark Forest, Dungeon created)
+- [ ] Add 1-2 more enemy types (different behaviors) - Bat enemy available but not integrated yet
 - [ ] Add 3-5 more spells
-- [ ] Create level transition system
 - [ ] Add NPCs with dialogue (future)
 
 #### 5. **Audio System** (2-3 hours) 🟡 MEDIUM PRIORITY
@@ -150,6 +187,11 @@ To verify everything works:
 - [x] Door pulses when player is nearby
 - [x] Quest progress tracks spell collection and enemy defeats
 - [x] Quest completion gives rewards
+- [x] Save game works (saves all state)
+- [x] Load game works (restores all state)
+- [x] Enemy state persists (defeated enemies stay dead after load)
+- [x] Pickup state persists (collected items stay collected after load)
+- [x] Door state persists (unlocked doors stay unlocked after load)
 - [x] No console errors
 - [x] Game runs smoothly
 
@@ -165,12 +207,15 @@ To verify everything works:
 ## Recommended Next Action
 
 **Core gameplay loop is COMPLETE!** ✅
+**Save/Load System is COMPLETE!** ✅
 
 **Next priorities:**
-1. **Visual Polish** - Replace all placeholder sprites (highest impact)
-2. **Save/Load System** - Essential for playability
-3. **Death/Respawn** - Complete the combat loop
-4. **More Content** - Add levels, enemies, spells
+1. ✅ **Level/Biome Transition System** - COMPLETE! Hub, multiple biomes, return to school ✅
+2. ✅ **School Hub Scene** - COMPLETE! Physical school scene created ✅
+3. **Material Collection System** - Add materials, inventory, connect to upgrades (NEXT)
+4. **Integrate Bat Enemy** - Add flying bat enemy to dungeon levels
+5. **Death/Respawn** - Complete the combat loop
+6. **More Content** - Add more levels, enemies, spells
 
 See `GAME_MECHANICS.md` for detailed recommendations and priority matrix.
 
@@ -187,7 +232,8 @@ See `GAME_MECHANICS.md` for detailed recommendations and priority matrix.
 - **School System:** `godot-project/scripts/school/`
 - **Quest System:** `godot-project/scripts/quests/`
 - **Door System:** `godot-project/scripts/exploration/door.gd`
-- **Singletons:** `godot-project/scripts/singletons/` (GameManager, InputManager, SpellManager, etc.)
+- **Save System:** `godot-project/scripts/singletons/save_manager.gd`
+- **Singletons:** `godot-project/scripts/singletons/` (GameManager, InputManager, SpellManager, SaveManager, etc.)
 
 ## Need Help?
 

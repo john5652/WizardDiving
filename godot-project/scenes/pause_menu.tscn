@@ -64,12 +64,30 @@ custom_minimum_size = Vector2(200, 50)
 layout_mode = 2
 custom_minimum_size = Vector2(0, 15)
 
+[node name="SaveButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Save Game"
+custom_minimum_size = Vector2(200, 50)
+
+[node name="SpacerSave" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 15)
+
+[node name="LoadButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+text = "Load Game"
+custom_minimum_size = Vector2(200, 50)
+
+[node name="Spacer4" type="Control" parent="VBoxContainer"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 15)
+
 [node name="MagicSchoolButton" type="Button" parent="VBoxContainer"]
 layout_mode = 2
 text = "Magic School"
 custom_minimum_size = Vector2(200, 50)
 
-[node name="Spacer4" type="Control" parent="VBoxContainer"]
+[node name="Spacer5" type="Control" parent="VBoxContainer"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 15)
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://test_level_001"]
+[gd_scene load_steps=12 format=3 uid="uid://dark_forest_001"]
 
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_player"]
 [ext_resource type="Script" path="res://scripts/spells/spell_pickup.gd" id="2_spell_pickup"]
@@ -41,13 +41,13 @@ size = Vector2(40, 80)
 [sub_resource type="RectangleShape2D" id="enemy_shape"]
 size = Vector2(24, 24)
 
-[node name="TestLevel" type="Node2D"]
+[node name="DarkForestLevel" type="Node2D"]
 
 [node name="Room" type="Node2D" parent="."]
 script = ExtResource("5_room")
-room_id = "test_room_01"
-room_name = "Test Chamber"
-biome_type = "test"
+room_id = "dark_forest_01"
+room_name = "Dark Forest"
+biome_type = "forest"
 
 [node name="Background" type="Sprite2D" parent="Room"]
 position = Vector2(640, 360)
@@ -66,7 +66,7 @@ offset_left = 615.0
 offset_top = 25.0
 offset_right = 665.0
 offset_bottom = 75.0
-color = Color(0.3, 0.25, 0.2, 1)
+color = Color(0.2, 0.3, 0.15, 1)
 
 [node name="WallBottom" type="StaticBody2D" parent="Room/Walls"]
 
@@ -79,7 +79,7 @@ offset_left = 615.0
 offset_top = 645.0
 offset_right = 665.0
 offset_bottom = 695.0
-color = Color(0.3, 0.25, 0.2, 1)
+color = Color(0.2, 0.3, 0.15, 1)
 
 [node name="WallLeft" type="StaticBody2D" parent="Room/Walls"]
 
@@ -92,7 +92,7 @@ offset_left = 25.0
 offset_top = 335.0
 offset_right = 75.0
 offset_bottom = 385.0
-color = Color(0.3, 0.25, 0.2, 1)
+color = Color(0.2, 0.3, 0.15, 1)
 
 [node name="WallRight" type="StaticBody2D" parent="Room/Walls"]
 
@@ -105,7 +105,7 @@ offset_left = 1205.0
 offset_top = 335.0
 offset_right = 1255.0
 offset_bottom = 385.0
-color = Color(0.3, 0.25, 0.2, 1)
+color = Color(0.2, 0.3, 0.15, 1)
 
 [node name="Player" type="CharacterBody2D" parent="Room"]
 position = Vector2(200, 360)
@@ -129,23 +129,23 @@ limit_bottom = 720
 
 [node name="SpellPickups" type="Node2D" parent="Room"]
 
-[node name="FireballPickup" type="Area2D" parent="Room/SpellPickups"]
-position = Vector2(500, 200)
+[node name="LightningPickup" type="Area2D" parent="Room/SpellPickups"]
+position = Vector2(600, 250)
 script = ExtResource("2_spell_pickup")
-spell_id = "fireball"
-pickup_id = "test_room_01_fireball_01"
+spell_id = "lightning"
+pickup_id = "dark_forest_01_lightning_01"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/SpellPickups/FireballPickup"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/SpellPickups/LightningPickup"]
 shape = SubResource("spell_pickup_shape")
 
-[node name="Sprite2D" type="ColorRect" parent="Room/SpellPickups/FireballPickup"]
+[node name="Sprite2D" type="ColorRect" parent="Room/SpellPickups/LightningPickup"]
 offset_left = -10.0
 offset_top = -10.0
 offset_right = 10.0
 offset_bottom = 10.0
-color = Color(1, 0.3, 0.1, 1)
+color = Color(0.9, 0.9, 0.2, 1)
 
-[node name="Glow" type="ColorRect" parent="Room/SpellPickups/FireballPickup/Sprite2D"]
+[node name="Glow" type="ColorRect" parent="Room/SpellPickups/LightningPickup/Sprite2D"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -156,145 +156,28 @@ offset_left = -3.0
 offset_top = -3.0
 offset_right = 3.0
 offset_bottom = 3.0
-color = Color(1, 0.6, 0.2, 0.6)
+color = Color(1, 1, 0.5, 0.6)
 
-[node name="Label" type="Label" parent="Room/SpellPickups/FireballPickup"]
+[node name="Label" type="Label" parent="Room/SpellPickups/LightningPickup"]
 offset_left = -30.0
 offset_top = -35.0
 offset_right = 30.0
 offset_bottom = -15.0
-text = "Fireball"
+text = "Lightning"
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="IceShardPickup" type="Area2D" parent="Room/SpellPickups"]
-position = Vector2(800, 500)
-script = ExtResource("2_spell_pickup")
-spell_id = "ice_shard"
-pickup_id = "test_room_01_ice_shard_01"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/SpellPickups/IceShardPickup"]
-shape = SubResource("spell_pickup_shape")
-
-[node name="Sprite2D" type="ColorRect" parent="Room/SpellPickups/IceShardPickup"]
-offset_left = -10.0
-offset_top = -10.0
-offset_right = 10.0
-offset_bottom = 10.0
-color = Color(0.2, 0.8, 1, 1)
-
-[node name="Glow" type="ColorRect" parent="Room/SpellPickups/IceShardPickup/Sprite2D"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-offset_left = -3.0
-offset_top = -3.0
-offset_right = 3.0
-offset_bottom = 3.0
-color = Color(0.4, 0.9, 1, 0.6)
-
-[node name="Label" type="Label" parent="Room/SpellPickups/IceShardPickup"]
-offset_left = -30.0
-offset_top = -35.0
-offset_right = 30.0
-offset_bottom = -15.0
-text = "Ice Shard"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="UnlockDoorSpell" type="Area2D" parent="Room/SpellPickups"]
-position = Vector2(400, 600)
-script = ExtResource("2_spell_pickup")
-spell_id = "unlock_door"
-pickup_id = "test_room_01_unlock_door_01"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/SpellPickups/UnlockDoorSpell"]
-shape = SubResource("spell_pickup_shape")
-
-[node name="Sprite2D" type="ColorRect" parent="Room/SpellPickups/UnlockDoorSpell"]
-offset_left = -10.0
-offset_top = -10.0
-offset_right = 10.0
-offset_bottom = 10.0
-color = Color(0.8, 0.8, 0.2, 1)
-
-[node name="Glow" type="ColorRect" parent="Room/SpellPickups/UnlockDoorSpell/Sprite2D"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-offset_left = -3.0
-offset_top = -3.0
-offset_right = 3.0
-offset_bottom = 3.0
-color = Color(1, 1, 0.4, 0.6)
-
-[node name="Label" type="Label" parent="Room/SpellPickups/UnlockDoorSpell"]
-offset_left = -30.0
-offset_top = -35.0
-offset_right = 30.0
-offset_bottom = -15.0
-text = "Unlock Door"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Doors" type="Node2D" parent="Room"]
-
-[node name="LockedDoor" type="StaticBody2D" parent="Room/Doors"]
-position = Vector2(1100, 360)
-script = ExtResource("3_door")
-door_id = "door_01"
-required_spell = "unlock_door"
-is_locked = true
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Doors/LockedDoor"]
-shape = SubResource("door_shape")
-
-[node name="Visual" type="ColorRect" parent="Room/Doors/LockedDoor"]
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
-offset_bottom = 40.0
-color = Color(0.6, 0.2, 0.2, 1)
-
-[node name="LockIcon" type="ColorRect" parent="Room/Doors/LockedDoor"]
-offset_left = -8.0
-offset_top = -8.0
-offset_right = 8.0
-offset_bottom = 8.0
-color = Color(0.9, 0.9, 0.1, 1)
-
-[node name="Label" type="Label" parent="Room/Doors/LockedDoor"]
-offset_left = -50.0
-offset_top = -60.0
-offset_right = 50.0
-offset_bottom = -40.0
-text = "LOCKED
-Requires: Unlock Door"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="InteractionArea" type="Area2D" parent="Room/Doors/LockedDoor"]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Room/Doors/LockedDoor/InteractionArea"]
-shape = SubResource("door_shape")
 
 [node name="Enemies" type="Node2D" parent="Room"]
 
 [node name="Goblin" type="CharacterBody2D" parent="Room/Enemies"]
 position = Vector2(900, 300)
 script = ExtResource("4_enemy")
-enemy_name = "Goblin"
-enemy_id = "test_room_01_goblin_01"
-max_health = 30
-speed = 80.0
+enemy_name = "Forest Goblin"
+enemy_id = "dark_forest_01_goblin_01"
+max_health = 25
+speed = 85.0
 damage = 5
-experience_reward = 15
+experience_reward = 12
 
 [node name="Visual" type="AnimatedSprite2D" parent="Room/Enemies/Goblin"]
 
@@ -306,8 +189,8 @@ offset_left = -25.0
 offset_top = -28.0
 offset_right = 25.0
 offset_bottom = -18.0
-max_value = 30.0
-value = 30.0
+max_value = 25.0
+value = 25.0
 show_percentage = false
 modulate = Color(1, 0.3, 0.3, 1)
 script = SubResource("enemy_health_script")
@@ -317,7 +200,7 @@ offset_left = -30.0
 offset_top = -35.0
 offset_right = 30.0
 offset_bottom = -20.0
-text = "Goblin"
+text = "Forest Goblin"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -416,27 +299,6 @@ horizontal_alignment = 2
 layout_mode = 2
 text = "Empty"
 modulate = Color(0.5, 0.5, 0.5, 1)
-
-[node name="Instructions" type="VBoxContainer" parent="UI"]
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -200.0
-offset_top = -150.0
-offset_right = 200.0
-offset_bottom = -20.0
-
-[node name="Label" type="Label" parent="UI/Instructions"]
-layout_mode = 2
-text = "WASD: Move
-TAB: Switch Spells
-SPACE: Cast Spell
-E: Interact with doors
-ESC: Pause Menu
-Collect spells first!"
-horizontal_alignment = 1
-vertical_alignment = 1
 
 [node name="PauseMenu" parent="UI" instance=ExtResource("8_pause_menu")]
 

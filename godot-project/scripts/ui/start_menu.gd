@@ -16,9 +16,9 @@ func _ready():
 	print("Start menu loaded")
 
 func _on_start_button_pressed():
-	"""Start the game - load test level"""
+	"""Start the game - load level hub"""
 	print("Starting game...")
-	GameManager.change_scene("res://scenes/test_level.tscn")
+	GameManager.change_scene("res://scenes/level_hub.tscn")
 
 func _on_quit_button_pressed():
 	"""Quit the game"""

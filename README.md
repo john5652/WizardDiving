@@ -90,8 +90,9 @@ wizard-diver-game/
    - ✅ Quest System UI
    - ✅ Test level (fully playable)
 4. **Phase 4:** Content & Polish (In Progress)
-   - ⏳ Visual polish (replace placeholders)
-   - ⏳ Save/Load system
+   - ✅ Visual polish (player/enemy sprites with animations, background) - PARTIALLY COMPLETE
+   - ✅ Save/Load system - Complete with state persistence (enemies, pickups, doors)
+   - ⏳ Spell visual effects (particles, trails)
    - ⏳ More content (levels, enemies, spells)
    - ⏳ Audio system
 5. **Phase 5:** Build & Deployment (Planned)

@@ -4,6 +4,7 @@ extends CharacterBody2D
 ## All enemies inherit from this
 
 @export var enemy_name: String = "Enemy"
+@export var enemy_id: String = ""  # Unique identifier for saving
 @export var max_health: int = 50
 @export var speed: float = 100.0
 @export var damage: int = 10
@@ -23,6 +24,16 @@ func _ready():
 	current_health = max_health
 	find_player()
 	add_to_group("enemies")
+	
+	# Generate unique ID if not set
+	if enemy_id == "":
+		enemy_id = enemy_name + "_" + str(get_path())
+	
+	# Check if this enemy should be dead (from save data)
+	if SaveManager and SaveManager.is_enemy_defeated(get_room_id(), enemy_id):
+		print("Enemy ", enemy_name, " was defeated, removing...")
+		queue_free()
+		return
 	
 	# Set up goblin animations
 	if visual:
@@ -111,6 +122,10 @@ func die():
 	is_alive = false
 	enemy_died.emit(self)
 	
+	# Register enemy as defeated in save system
+	if SaveManager:
+		SaveManager.register_enemy_defeated(get_room_id(), enemy_id)
+	
 	# TODO: Add death animation, drop items, etc.
 	print("Enemy died: ", enemy_name)
 	
@@ -122,6 +137,28 @@ func die():
 		player.gain_experience(experience_reward)
 	
 	queue_free()
+
+func get_room_id() -> String:
+	"""Get the room ID this enemy belongs to"""
+	# Try to find Room node in the scene tree
+	var room = get_tree().get_first_node_in_group("room")
+	if not room:
+		# Fallback: search up the tree for Room node
+		var current = get_parent()
+		while current:
+			if current.name == "Room":
+				room = current
+				break
+			current = current.get_parent()
+	
+	# Access room_id property if room exists
+	if room:
+		# Use get() method which is safe for any object
+		var room_id = room.get("room_id")
+		if room_id is String and room_id != "":
+			return room_id
+	
+	return "unknown_room"
 
 func update_quest_progress(quest_type: String):
 	"""Update quest progress based on action type"""

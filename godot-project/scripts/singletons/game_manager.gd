@@ -27,6 +27,10 @@ func change_scene(scene_path: String):
 		current_scene = scene_path
 		get_tree().change_scene_to_file(scene_path)
 		scene_changed.emit(scene_path)
+		
+		# Auto-save when returning to school (if SaveManager exists)
+		if SaveManager and "magic_school" in scene_path.to_lower():
+			SaveManager.auto_save()
 	else:
 		push_error("Scene not found: " + scene_path)
 

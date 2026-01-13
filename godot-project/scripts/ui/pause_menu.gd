@@ -4,6 +4,8 @@ extends Control
 
 @onready var resume_button: Button = $VBoxContainer/ResumeButton
 @onready var quest_log_button: Button = $VBoxContainer/QuestLogButton
+@onready var save_button: Button = $VBoxContainer/SaveButton
+@onready var load_button: Button = $VBoxContainer/LoadButton
 @onready var magic_school_button: Button = $VBoxContainer/MagicSchoolButton
 @onready var main_menu_button: Button = $VBoxContainer/MainMenuButton
 @onready var quit_button: Button = $VBoxContainer/QuitButton
@@ -19,6 +21,8 @@ func _ready():
 	# Connect button signals
 	resume_button.pressed.connect(_on_resume_button_pressed)
 	quest_log_button.pressed.connect(_on_quest_log_button_pressed)
+	save_button.pressed.connect(_on_save_button_pressed)
+	load_button.pressed.connect(_on_load_button_pressed)
 	magic_school_button.pressed.connect(_on_magic_school_button_pressed)
 	main_menu_button.pressed.connect(_on_main_menu_button_pressed)
 	quit_button.pressed.connect(_on_quit_button_pressed)
@@ -54,6 +58,11 @@ func show_pause_menu():
 	visible = true
 	GameManager.pause_game()
 	resume_button.grab_focus()
+	
+	# Update load button state
+	if SaveManager:
+		load_button.disabled = not SaveManager.has_save_file()
+	
 	print("Game paused")
 
 func hide_pause_menu():
@@ -87,6 +96,30 @@ func _on_quest_log_button_pressed():
 		print("Quest log opened")
 	else:
 		print("ERROR: Quest log not found! Check scene structure.")
+
+func _on_save_button_pressed():
+	"""Save the game"""
+	if SaveManager:
+		var success = SaveManager.save_game()
+		if success:
+			print("Game saved successfully!")
+			# Show brief feedback (you could add a label here)
+		else:
+			print("ERROR: Failed to save game!")
+
+func _on_load_button_pressed():
+	"""Load the game"""
+	if SaveManager:
+		if SaveManager.has_save_file():
+			var success = SaveManager.load_game()
+			if success:
+				print("Game loaded successfully!")
+				# Resume game after loading
+				hide_pause_menu()
+			else:
+				print("ERROR: Failed to load game!")
+		else:
+			print("No save file found!")
 
 func _on_magic_school_button_pressed():
 	"""Go to magic school"""

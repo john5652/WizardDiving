@@ -7,9 +7,10 @@ When you run the game (F5), you'll experience a **fully playable test level** wi
 ### 🎯 Features
 
 1. **Player Character**
-   - Blue glowing square (your wizard)
+   - Animated wizard sprite with walk/run/idle animations
    - Smooth flying movement
    - Camera follows you
+   - Sprite scales appropriately (2.0x) and flips based on movement direction
 
 2. **Spell Pickups** (3 total)
    - 🔥 **Fireball** (red/orange) - Combat spell
@@ -22,10 +23,11 @@ When you run the game (F5), you'll experience a **fully playable test level** wi
    - Press **Space** near it to interact
 
 4. **Enemy**
-   - Green Goblin that chases you
+   - Animated goblin sprite with walk/idle animations
    - Has health bar above it
    - Deals damage on contact
    - Can be damaged with spells
+   - Sprite scales appropriately (1.8x) and flips based on movement direction
 
 5. **UI Elements**
    - Health bar (top-left)
@@ -33,7 +35,7 @@ When you run the game (F5), you'll experience a **fully playable test level** wi
    - Instructions (bottom-center)
 
 6. **Environment**
-   - Dark blue/purple background
+   - Fantasy background texture (pixel art environment)
    - Brown walls on all sides (you can't fly through them)
    - Level boundaries
 
@@ -86,8 +88,9 @@ When you run the game (F5), you'll experience a **fully playable test level** wi
 Once you've tested everything:
 1. Create more levels with different layouts
 2. Add more enemy types
-3. Create the magic school scene
-4. Add more spells and abilities
-5. Design better visuals (replace placeholders)
+3. Improve spell pickup visuals (replace colored rectangles)
+4. Add spell casting visual effects (particles, trails)
+5. Add more spells and abilities
+6. Add save/load system
 
 Enjoy testing your game! 🎉

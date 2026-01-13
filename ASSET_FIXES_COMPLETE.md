@@ -8,10 +8,10 @@
 - **Status:** Sprites should now be clearly visible
 
 ### 2. ✅ Background Added
-- **Scene Updated:** Background node changed from ColorRect to TextureRect
+- **Scene Updated:** Background node changed from ColorRect to Sprite2D
 - **Script Updated:** `room.gd` now loads fantasy background texture at runtime
-- **Texture:** `fantasy_001_1920x1080.png` automatically loads
-- **Status:** Background should now display!
+- **Texture:** `fantasy_001_1920x1080.png` automatically loads and scales to fill viewport
+- **Status:** Background displays correctly!
 
 ### 3. ✅ Animations Set Up
 - **Player (Wizard):**
@@ -40,8 +40,9 @@ The animations are created programmatically using `SpriteFrames` resources:
 
 ### Background
 - Background texture loads in `room.gd` `_ready()` function
-- Uses TextureRect with proper stretch settings
-- Fills the entire screen
+- Uses Sprite2D positioned at center (640, 360)
+- Scales automatically to fill viewport (1280x720)
+- Set to z_index -100 to render behind everything
 
 ## 🎮 Testing
 
@@ -56,7 +57,7 @@ Run the game (F5) and you should see:
 1. `godot-project/scenes/test_level.tscn`:
    - Player Visual: Sprite2D → AnimatedSprite2D
    - Enemy Visual: Sprite2D → AnimatedSprite2D
-   - Background: ColorRect → TextureRect
+   - Background: ColorRect → Sprite2D
 
 2. `godot-project/scripts/player/player.gd`:
    - Changed visual type to AnimatedSprite2D

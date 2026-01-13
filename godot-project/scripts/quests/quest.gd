@@ -50,3 +50,16 @@ func get_progress() -> float:
 			completed += 1
 	
 	return float(completed) / float(objectives.size())
+
+func get_quest_data() -> Dictionary:
+	"""Get quest data as dictionary for saving"""
+	return {
+		"quest_id": quest_id,
+		"quest_name": quest_name,
+		"description": description,
+		"quest_type": quest_type,
+		"objectives": objectives,
+		"rewards": rewards,
+		"is_active": is_active,
+		"is_completed": is_completed
+	}

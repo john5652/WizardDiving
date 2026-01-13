@@ -23,6 +23,12 @@ func _ready():
 	
 	# Connect to quest objective completion signals
 	for quest in QuestManager.active_quests:
+		# Disconnect first to avoid duplicate connections
+		if quest.objective_completed.is_connected(_on_objective_completed):
+			quest.objective_completed.disconnect(_on_objective_completed)
+		if quest.quest_completed.is_connected(_on_quest_completed_internal):
+			quest.quest_completed.disconnect(_on_quest_completed_internal)
+		
 		quest.objective_completed.connect(_on_objective_completed)
 		quest.quest_completed.connect(_on_quest_completed_internal)
 	
@@ -34,8 +40,10 @@ func _ready():
 		var first_quest = QuestManager.available_quests[0]
 		QuestManager.start_quest(first_quest)
 		# Connect signals for the new quest
-		first_quest.objective_completed.connect(_on_objective_completed)
-		first_quest.quest_completed.connect(_on_quest_completed_internal)
+		if not first_quest.objective_completed.is_connected(_on_objective_completed):
+			first_quest.objective_completed.connect(_on_objective_completed)
+		if not first_quest.quest_completed.is_connected(_on_quest_completed_internal):
+			first_quest.quest_completed.connect(_on_quest_completed_internal)
 	
 	# Initialize display
 	update_display()
@@ -193,9 +201,11 @@ func show_notification(text: String, duration: float = 3.0):
 
 func _on_quest_started(quest: Quest):
 	"""Handle quest started event"""
-	# Connect to quest signals
-	quest.objective_completed.connect(_on_objective_completed)
-	quest.quest_completed.connect(_on_quest_completed_internal)
+	# Connect to quest signals (check if already connected first)
+	if not quest.objective_completed.is_connected(_on_objective_completed):
+		quest.objective_completed.connect(_on_objective_completed)
+	if not quest.quest_completed.is_connected(_on_quest_completed_internal):
+		quest.quest_completed.connect(_on_quest_completed_internal)
 	
 	update_display()
 	show_notification("Quest Started: " + quest.quest_name)
